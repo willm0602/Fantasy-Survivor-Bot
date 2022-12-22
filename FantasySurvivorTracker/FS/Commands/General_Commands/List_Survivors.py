@@ -4,7 +4,7 @@ lists all survivors and their current scores
 fs.list_survivors
 '''
 
-from FS.DB import DB
+from ...DB import DB
 from ...Command import Command
 from discord.message import Message
 

@@ -1,5 +1,5 @@
-from FS.Commands.Admin_Commands.Mod_SP_Bal import MOD_SURVIVOR_BAL_COMMAND
 
+from .Mod_SP_Bal import MOD_SURVIVOR_BAL_COMMAND
 from .Del_Fantasy_Player import DEL_PLAYER_COMMAND
 from .New_Fantasy_Player import NEW_FANTASY_PLAYER_COMMAND
 from .New_Survivor_Player import NEW_SURVIVOR_PLAYER_COMMAND

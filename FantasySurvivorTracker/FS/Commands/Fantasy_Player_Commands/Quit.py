@@ -6,9 +6,8 @@ fs.quit
 
 from discord.message import Message
 
-from FS.Command import Command, User_Command
-from FS.DB import DB
-
+from ...Command import Command, User_Command
+from ...DB import DB
 
 async def quit(msg: Message):
     user = msg.author

@@ -1,7 +1,7 @@
 
 from discord.message import Message
 
-from FS.Command import Command
+from ..Command import Command
 
 from .Commands import COMMANDS, Admin_Commands, FP_COMMANDS
 

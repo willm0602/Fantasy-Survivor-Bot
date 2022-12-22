@@ -6,9 +6,8 @@ fs.signup
 
 from discord.message import Message
 
-from FS.Command import Command
-from FS.DB import DB
-
+from ...Command import Command
+from ...DB import DB
 
 async def signup(msg: Message):
     user = msg.author

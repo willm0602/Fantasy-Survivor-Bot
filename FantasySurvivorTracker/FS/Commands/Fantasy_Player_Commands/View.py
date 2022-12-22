@@ -6,9 +6,8 @@ fs.view_bal
 
 from discord.message import Message
 
-from FS.Command import User_Command
-from FS.DB import DB
-
+from ...Command import User_Command
+from ...DB import DB
 
 async def view_balance(msg: Message):
     db = DB()

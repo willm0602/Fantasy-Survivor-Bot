@@ -6,8 +6,8 @@ fs.split *[survivor name]
 
 from discord.message import Message
 
-from FS.Command import Command, User_Command
-from FS.DB import DB
+from ...Command import Command, User_Command
+from ...DB import DB
 
 from ..utils import get_args
 

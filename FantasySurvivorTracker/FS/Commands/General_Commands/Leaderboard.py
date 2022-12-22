@@ -4,7 +4,7 @@ shows all the players scores
 fs.lb
 '''
 
-from FS.DB import DB
+from ...DB import DB
 from ...Command import Command
 from discord.message import Message
 
