@@ -1,8 +1,8 @@
 import discord
 
-from FS.Command import Command
-from FS.Commands.Commands import COMMANDS
-from FS.Commands.Help_Command import HELP_COMMAND
+from .FS.Command import Command
+from .FS.Commands.Commands import COMMANDS
+from .FS.Commands.Help_Command import HELP_COMMAND
 
 
 def setup_bot(token):
