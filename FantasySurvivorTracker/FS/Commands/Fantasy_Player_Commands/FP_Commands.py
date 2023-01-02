@@ -17,8 +17,6 @@ COMMANDS = [
     REMOVE_BET_COMMAND,
     RESET_COMMAND,
     SPLIT_COMMAND,
-    ALL_IN_COMMAND
+    ALL_IN_COMMAND,
 ]
-COMMANDS.sort(
-    key = lambda k: k.desc
-)
+COMMANDS.sort(key=lambda k: k.desc)

@@ -14,15 +14,12 @@ def setup_bot(token):
 
     @client.event
     async def on_message(msg: discord.message.Message):
-        content: str = msg.content   
-        print('got message', msg)
-        print(type(content), content, len(content))
-        if content == 'fs.help':
+        content: str = msg.content
+        print("got message", msg)
+        if content == "fs.help":
             await HELP_COMMAND.run(msg)
             return
-             
         if content.startswith("fs."):
-            print(content)
             for command in COMMANDS:
                 if command.match(content):
                     await command.run(msg)

@@ -15,10 +15,10 @@ from ...DB import DB
 async def is_locked(msg: Message):
     db = DB()
     channel: TextChannel = msg.channel
-    if db.get_setting('bettingLocked') == 'no': 
+    if db.get_setting("bettingLocked") == "no":
         await channel.send(f"Betting is not locked")
     else:
-        await channel.send(f"Betting is locked")    
+        await channel.send(f"Betting is locked")
 
 
 CHECK_LOCKED_COMMAND = Command(

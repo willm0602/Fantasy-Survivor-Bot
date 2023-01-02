@@ -28,14 +28,17 @@ class Command:
                 await self.action(msg)
             except Exception as e:
                 await msg.channel.send(e)
-                
+
                 # https://stackoverflow.com/a/28836286
                 error_class = e.__class__.__name__
-                detail = e.args[0] if len(e.args) else 'no details found'
+                detail = e.args[0] if len(e.args) else "no details found"
                 cl, ex, tb = sys.exc_info()
                 line = traceback.extract_tb(tb)[-1][1]
                 traceback.print_tb(tb)
-                print(f'{error_class} exception on line {line} of file: {detail}\n{e.args}')
+                print(
+                    f"{error_class} exception on line {line} of file: {detail}\n{e.args}"
+                )
+
 
 class Admin_Command(Command):
     async def run(self, msg: Message):
@@ -45,7 +48,9 @@ class Admin_Command(Command):
                 await super().run(msg)
                 return
             else:
-                await msg.channel.send("Error: you must be an admin to run this command")
+                await msg.channel.send(
+                    "Error: you must be an admin to run this command"
+                )
 
 
 class User_Command(Command):
@@ -57,4 +62,6 @@ class User_Command(Command):
                 await super().run(msg)
                 return
             else:
-                await msg.channel.send("Error: you need to be a user to run this command")
+                await msg.channel.send(
+                    "Error: you need to be a user to run this command"
+                )

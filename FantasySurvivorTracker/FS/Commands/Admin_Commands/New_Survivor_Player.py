@@ -26,6 +26,7 @@ async def new_survivor_player(msg: Message):
     else:
         raise Exception("Error: Player Already Exists")
 
+
 NEW_SURVIVOR_PLAYER_COMMAND = Admin_Command(
     "new_survivor",
     new_survivor_player,

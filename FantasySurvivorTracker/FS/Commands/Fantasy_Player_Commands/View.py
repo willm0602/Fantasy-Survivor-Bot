@@ -1,13 +1,14 @@
-'''
+"""
 lets a user view their bank
 
 fs.view_bal
-'''
+"""
 
 from discord.message import Message
 
 from ...Command import User_Command
 from ...DB import DB
+
 
 async def view_balance(msg: Message):
     db = DB()
@@ -21,8 +22,7 @@ async def view_balance(msg: Message):
     else:
         raise Exception("Error: Unable to get your balance")
 
+
 VIEW_BALANCE_COMMAND = User_Command(
-    'view_bal',
-    view_balance,
-    'fs.view_bal - lets a user view their balance'
+    "view_bal", view_balance, "fs.view_bal - lets a user view their balance"
 )

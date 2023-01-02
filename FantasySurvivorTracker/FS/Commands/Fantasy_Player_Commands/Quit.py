@@ -1,13 +1,14 @@
-'''
+"""
 Let's a user quit the fantasy league
 
 fs.quit
-'''
+"""
 
 from discord.message import Message
 
 from ...Command import Command, User_Command
 from ...DB import DB
+
 
 async def quit(msg: Message):
     user = msg.author
@@ -18,6 +19,5 @@ async def quit(msg: Message):
     else:
         raise Exception("Error: You aren't signed up!")
 
-QUIT_COMMAND = User_Command(
-    'quit', quit, 'fs.quit- leave the fantasy league'
-)
+
+QUIT_COMMAND = User_Command("quit", quit, "fs.quit- leave the fantasy league")
