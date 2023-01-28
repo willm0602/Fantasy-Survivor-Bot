@@ -1,9 +1,10 @@
-import dotenv
 import os
+
 import discord
+import dotenv
 from discord.ext import commands
-from FantasySurvivorTracker import Fantasy_Bot
-from FantasySurvivorTracker import Cron
+
+from FantasySurvivorTracker import Cron, Fantasy_Bot
 
 # loads environment variables on local if developing
 dotenv.load_dotenv(".env")

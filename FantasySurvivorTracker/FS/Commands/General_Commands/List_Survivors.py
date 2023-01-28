@@ -4,9 +4,10 @@ lists all survivors and their current scores
 fs.list_survivors
 """
 
-from ...DB import DB
-from ...Command import Command
 from discord.message import Message
+
+from ...Command import Command
+from ...DB import DB
 
 
 async def list_survivors(msg: Message):

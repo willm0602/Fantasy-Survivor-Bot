@@ -3,3 +3,4 @@ class TABLE_NAMES:
     SURVIVOR_PLAYERS = "SurvivorPlayers"
     BET = "Bet"
     SETTINGS = "Settings"
+    BACKUP = "BackupData"

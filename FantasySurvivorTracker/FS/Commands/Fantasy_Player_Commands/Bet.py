@@ -8,9 +8,7 @@ from discord.message import Message
 
 from ...Command import Command, User_Command
 from ...DB import DB
-
-from ..utils import get_args
-from ..utils import pairwise
+from ..utils import get_args, pairwise
 
 
 async def bet(msg: Message):

@@ -1,8 +1,12 @@
 from typing import List
+
 from discord.message import Message
 from discord.user import User
 
+from ..DB import DB
 
+# parses a discord message to get the command, args and user from it
+# used instead of standard "discord py" commands
 def parse_message(msg: Message):
     content = msg.content[len("fs.") :]
     data = content.split(" ")
@@ -12,11 +16,15 @@ def parse_message(msg: Message):
     return {"command": command, "args": args, "user": user}
 
 
+# obtains just the arguments from discord
 def get_args(msg: Message):
     data = parse_message(msg)
     return data.get("args", [])
 
 
+# returns a list of tuples with every even-indexed value in the list
+# with the value at the index one higher than that (e.g.) if items were
+# [0,1,2,3,4,5,6] the function returns [(0,1),(2,3),(4,5)]
 def pairwise(items: List):
     pairs = []
     index = 0
@@ -28,8 +36,11 @@ def pairwise(items: List):
     return pairs
 
 
-ADMIN_IDS = [192465045161115649, 422857053254713364]
-
-
+# checks if a discord user is an admin for the bot
 def is_admin(user: User):
-    return user.id in ADMIN_IDS
+    user_id = user.id
+    rows = DB().supabase.from_("Admin").select("*").execute().data
+    for row in rows:
+        if int(row.get("discord_id")) == user_id:
+            return True
+    return False

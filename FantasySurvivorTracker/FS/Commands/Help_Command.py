@@ -1,8 +1,8 @@
 from discord.message import Message
 
 from ..Command import Command
-
-from .Commands import COMMANDS, Admin_Commands, FP_COMMANDS
+from .Commands import COMMANDS, FP_COMMANDS, Admin_Commands
+from .utils import is_admin
 
 
 async def send_help(msg: Message):
@@ -17,7 +17,10 @@ async def send_help(msg: Message):
         if command not in Admin_Commands and command not in FP_COMMANDS:
             if command.trigger != "fs.help":
                 other_commands += f"{command.desc}\n"
-    res = admin_command_details + fp_command_details + other_commands
+    res = ""
+    if is_admin(msg.author):
+        res += admin_command_details
+    res += fp_command_details + other_commands
     await msg.channel.send(res)
 
 

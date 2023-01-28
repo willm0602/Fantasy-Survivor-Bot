@@ -7,6 +7,7 @@ from ...DB import DB
 
 
 async def backup(msg):
+    await msg.channel.send(f"Starting backup...")
     db_client = DB()
     db_client.backup()
     await msg.channel.send(f"Succesfully backed up scores")

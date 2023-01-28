@@ -1,7 +1,6 @@
-import dotenv
-
 from os import environ, path
 
+import dotenv
 from Fantasy_Bot import setup_bot
 
 # loads env file if run locally

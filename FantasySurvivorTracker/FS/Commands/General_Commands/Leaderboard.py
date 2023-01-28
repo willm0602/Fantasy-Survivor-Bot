@@ -4,9 +4,10 @@ shows all the players scores
 fs.lb
 """
 
-from ...DB import DB
-from ...Command import Command
 from discord.message import Message
+
+from ...Command import Command
+from ...DB import DB
 
 
 async def leaderboard(msg: Message):

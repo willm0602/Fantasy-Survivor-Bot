@@ -2,8 +2,8 @@
 Connects to supabase
 """
 
-from os import environ
 import json
+from os import environ
 
 import supabase
 from discord.user import User
@@ -293,22 +293,49 @@ class DB:
             ).execute()
 
     def backup(self):
+        # deletes previous backup
+        self.supabase.from_(C.TABLE_NAMES.BACKUP).delete().neq("id", 0).execute()
+        
+        # backs up survivor scores
         survivors = self.get_survivors()
         for survivor in survivors:
-            survivor_name = survivor["name"]
-            survivor_score = survivor["balance"]
-            self.supabase.from_(C.TABLE_NAMES.SURVIVOR_PLAYERS).update(
-                {"backup_val": survivor_score}
-            ).match({"name": survivor_name}).execute()
+            self.supabase.table(C.TABLE_NAMES.BACKUP).insert(
+                {
+                    "id": survivor["id"],
+                    "tableName": C.TABLE_NAMES.SURVIVOR_PLAYERS,
+                    "rowInfo": survivor,
+                }
+            ).execute()
+
+        # backs up fantasy player data
+        fantasy_players = self.get_fantasy_players()
+        for fp in fantasy_players:
+            self.supabase.table(C.TABLE_NAMES.BACKUP).insert(
+                {
+                    "id": fp["id"],
+                    "tableName": C.TABLE_NAMES.FANTASY_PLAYERS,
+                    "rowInfo": fp,
+                }
+            ).execute()
+
+        # backs up bets placed
+        bets = self.get_all_bets()
+        for bet in bets:
+            self.supabase.table(C.TABLE_NAMES.BACKUP).insert(
+                {"id": bet["id"], "tableName": C.TABLE_NAMES.BET, "rowInfo": bet}
+            ).execute()
 
     def restore(self):
-        survivors = self.get_survivors()
-        for survivor in survivors:
-            survivor_name = survivor["name"]
-            survivor_score = survivor["backup_val"]
-            self.supabase.from_(C.TABLE_NAMES.SURVIVOR_PLAYERS).update(
-                {"balance": survivor_score}
-            ).match({"name": survivor_name}).execute()
+        # clears all data not backed up
+        self.reset_season()
+
+        backup_data = (
+            self.supabase.from_(C.TABLE_NAMES.BACKUP).select("*").execute().data
+        )
+        for row in backup_data:
+            self.supabase.table(row.get("tableName")).insert(
+                row.get("rowInfo")
+            ).execute()
 
     def reset_season(self):
         self.supabase.from_("Bet").delete().neq("id", 0).execute()

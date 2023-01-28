@@ -8,9 +8,8 @@ from discord.member import Member
 from discord.message import Message
 
 from ...Command import Admin_Command
-
 from ...DB import DB
-from ..utils import parse_message, pairwise
+from ..utils import pairwise, parse_message
 
 
 async def set_sp_bal(msg: Message):
