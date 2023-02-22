@@ -32,10 +32,10 @@ async def list_bets(msg: Message):
         total_bet_amounts[survivor] += db.get_bet_value(bet)
     response = ""
     for survivor, total_bet in total_bet_amounts.items():
-        survivor_name = db.get_survivor_player_by_id(bet.get("survivorPlayer")).get(
+        survivor_name = db.get_survivor_player_by_id(survivor).get(
             "name"
         )
-        response += f"{total_bet} for {survivor_name}\n"
+        response += f"{total_bet:.2f} for {survivor_name}\n"
     await msg.channel.send(response)
 
 

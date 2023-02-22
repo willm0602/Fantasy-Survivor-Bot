@@ -454,10 +454,10 @@ class DB:
         if user_id is False:
             raise Exception("Error: No user found for this user")
         bets = self.get_all_bets_for_user(user_id)
-        print("bets are", bets)
         for bet in bets:
-            id = bet.get("id")
-            self.remove_bet(id, user)
+            survivor_id = bet.get('survivorPlayer')
+            survivor = self.get_survivor_player_by_id(survivor_id)['name']
+            self.remove_bet(survivor, user)
 
     def get_total_bal(self, id: int):
         """ """

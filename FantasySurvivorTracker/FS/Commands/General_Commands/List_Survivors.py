@@ -14,9 +14,11 @@ async def list_survivors(msg: Message):
     db = DB()
     survivors = db.get_survivors()
     survivors.sort(key=lambda k: k["balance"])
-    res = "\n".join([f"{s['name']} - {s['balance']}" for s in survivors])
-    await msg.channel.send(res)
-
+    if len(survivors):
+        res = "\n".join([f"{s['name']} - {s['balance']}" for s in survivors])
+        await msg.channel.send(res)
+    else:
+        await msg.channel.send("No Survivors Yet")
 
 LIST_SURVIVORS_COMMAND = Command(
     "list_survivors", list_survivors, "fs.list_survivors- shows all survivors"
