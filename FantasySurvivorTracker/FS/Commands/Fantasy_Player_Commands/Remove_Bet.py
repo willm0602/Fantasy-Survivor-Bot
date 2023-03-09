@@ -17,14 +17,11 @@ async def remove_bet(msg: Message):
     args = get_args(msg)
     if len(args) == 0:
         raise Exception("Missing argument: needs bet id passed in")
-    try:
-        survivor_name = args[0]
-    except ValueError:
-        raise Exception("Error: Bet ID must be an integer")
+    survivor_name = args[0]
     db.remove_bet(survivor_name, user)
     await msg.channel.send("succesfully removed bet")
 
 
 REMOVE_BET_COMMAND = User_Command(
-    "remove_bet", remove_bet, "fs.remove_bet [id]- removes the bet with the given id"
+    "remove_bet", remove_bet, "fs.remove_bet [survivor name]- removes all bets you made for the given survivor"
 )
