@@ -276,6 +276,7 @@ class DB:
         for player in survivor_players:
             if player.get("name") == name:
                 bal = player.get("balance", 0)
+                factor = float(factor)
                 bal = bal * factor
                 self.supabase.from_(C.TABLE_NAMES.SURVIVOR_PLAYERS).update(
                     {"balance": bal}
