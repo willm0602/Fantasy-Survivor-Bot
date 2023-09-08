@@ -339,7 +339,7 @@ class DB:
             ).execute()
 
     def reset_season(self):
-        self.supabase.from_("Bet").delete().neq("id", 0).execute()
+        self.supabase.from_("Bet").delete().execute()
         self.supabase.from_("FantasyPlayers").delete().neq("id", 0).execute()
         self.supabase.from_(C.TABLE_NAMES.SURVIVOR_PLAYERS).delete().neq(
             "id", 0
