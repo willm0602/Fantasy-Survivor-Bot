@@ -390,22 +390,26 @@ class DB:
         survivor_id = survivor.get("id")
         if prev_bal >= bet:
             bet = bet / survivor.get("balance")
-            user_id = self.fp_exists(user)
-            if user_id and survivor_id:
-                self.supabase.table("Bet").insert(
-                    {
-                        "fantasyPlayer": user_id,
-                        "survivorPlayer": survivor_id,
-                        "amount": bet,
-                    }
-                ).execute()
-                self.update_balance(user, prev_bal - bet * survivor.get("balance"))
-                return True
-            if user_id:
-                raise Exception("Invalid Survivor")
-            else:
-                raise Exception("Invalid: I don't believe you are playing")
-        raise Exception("Invalid Bet Amount")
+        elif prev_bal > 0:
+            bet = prev_bal / survivor.get("balance")
+        else:
+            raise Exception("Invalid Bet Amount")
+        user_id = self.fp_exists(user)
+        if user_id and survivor_id:
+            self.supabase.table("Bet").insert(
+                {
+                    "fantasyPlayer": user_id,
+                    "survivorPlayer": survivor_id,
+                    "amount": bet,
+                }
+            ).execute()
+            self.update_balance(user, prev_bal - bet * survivor.get("balance"))
+            return True
+        if user_id:
+            raise Exception("Invalid Survivor")
+        else:
+            raise Exception("Invalid: I don't believe you are playing")
+
 
     def remove_bet(self, survivor_name: str, user: User):
         """

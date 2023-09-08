@@ -26,11 +26,6 @@ async def bet(msg: Message):
     bets = [float(survivor_with_bet[1]) for survivor_with_bet in survivors_with_bets]
     survivors = [survivor_with_bet[0] for survivor_with_bet in survivors_with_bets]
 
-    if sum(bets) > player_current_bal:
-        raise Exception(
-            f"Error: You are trying to bet a total of {sum(bets)}. You only have {player_current_bal}"
-        )
-
     for survivor in survivors:
         if not db.survivor_exists(survivor):
             raise Exception(f"Error: {survivor} is not a survivor")
