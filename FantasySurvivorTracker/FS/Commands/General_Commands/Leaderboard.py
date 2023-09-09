@@ -13,6 +13,9 @@ from ...DB import DB
 async def leaderboard(msg: Message):
     db = DB()
     fps = db.get_fantasy_players()
+    if len(fps) == 0:
+        await msg.channel.send('Nobody signed up yet :(')
+        return
     survivors = db.get_survivors()
     bets = db.get_all_bets()
 
