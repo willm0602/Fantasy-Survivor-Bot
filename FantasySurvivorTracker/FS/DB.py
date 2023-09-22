@@ -474,9 +474,15 @@ class DB:
 
     #! Lets admins control settings
     def set_setting(self, key: str, val: str):
-        self.supabase.from_("Settings").update({"val": val}).match(
-            {"key": key}
-        ).execute()
+        setting_exists = self.supabase.from_('Settings').select('*').match({
+            'key': key
+        }).execute().data
+        if setting_exists:
+            self.supabase.from_("Settings").update({"val": val}).match(
+                {"key": key}
+            ).execute()
+        else:
+            self.supabase.from_('Settings').insert({'key': key, 'val': val}).execute()
 
     def get_setting(self, key):
         query = self.supabase.from_("Settings").select("*").execute().data

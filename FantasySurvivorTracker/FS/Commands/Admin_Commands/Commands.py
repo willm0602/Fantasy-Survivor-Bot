@@ -10,6 +10,7 @@ from .Set_FP_Bal import SET_FP_BAL_COMMAND
 from .Set_Season_Role import SET_SEASON_ROLE_COMMAND
 from .Set_SP_Bal import SET_SURVIVOR_BAL_COMMAND
 from .Unlock_bets import UNLOCK_BETS_COMMAND
+from .Set_Not_Signed_Up_Role import SET_NOT_SIGNED_UP_ROLE
 
 COMMANDS = [
     NEW_FANTASY_PLAYER_COMMAND,
@@ -24,6 +25,7 @@ COMMANDS = [
     UNLOCK_BETS_COMMAND,
     RESET_SEASON_COMMAND,
     SET_SEASON_ROLE_COMMAND,
+    SET_NOT_SIGNED_UP_ROLE
 ]
 
 COMMANDS.sort(key=lambda k: k.desc)
