@@ -13,7 +13,7 @@ from ...DB import DB
 async def quit(msg: Message):
     user = msg.author
     db = DB()
-    if db.fp_exists(user):
+    if db.get_registed_user_or_false(user):
         db.del_fantasy_player(user)
         await msg.channel.send("You've left the fantasy league :(")
     else:

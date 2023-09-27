@@ -13,7 +13,7 @@ from ...DB import DB
 async def view_balance(msg: Message):
     db = DB()
     user = msg.author
-    user_id = db.fp_exists(user)
+    user_id = db.get_registed_user_or_false(user)
     bal = db.get_balance(user_id)
     if bal is not False:
         bal = db.get_total_bal(user_id)

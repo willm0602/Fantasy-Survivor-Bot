@@ -23,7 +23,7 @@ async def set_sp_bal(msg: Message):
     new_players_with_bals = pairwise(args)
     for survivor_with_bal in new_players_with_bals:
         survivor, bal = survivor_with_bal
-        if db.survivor_exists(survivor):
+        if db.get_survivor_by_name_or_false(survivor):
             db.update_survivor_player(survivor, bal)
             await msg.channel.send(f"Successfully updated balance of {survivor}")
         else:

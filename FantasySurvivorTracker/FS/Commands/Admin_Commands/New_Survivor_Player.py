@@ -20,7 +20,7 @@ async def new_survivor_player(msg: Message):
         raise Exception("Error: Survivor player name must be specified")
     name = args[0]
     db_client = DB()
-    if not db_client.survivor_exists(name):
+    if not db_client.get_survivor_by_name_or_false(name):
         db_client.create_survivor_player(name)
         await msg.channel.send(f"Succesfully created new Survivor Player {name}")
     else:

@@ -14,11 +14,11 @@ from ..utils import get_args
 async def all_in(msg: Message):
     user = msg.author
     db = DB()
-    user_id = db.fp_exists(user)
+    user_id = db.get_registed_user_or_false(user)
     args = get_args(msg)
     if len(args) == 0:
         raise Exception("no arguments provided")
-    survivor = db.survivor_exists(args[0])
+    survivor = db.get_survivor_by_name_or_false(args[0])
     if survivor is False:
         raise Exception(f"{args[0]} is not a survivor")
 

@@ -18,7 +18,7 @@ async def bet(msg: Message):
     if len(args) < 2:
         raise Exception("Error: Not Enough Args Specified")
 
-    user_id = db.fp_exists(user)
+    user_id = db.get_registed_user_or_false(user)
     player_current_bal = float(db.get_balance(user_id))
 
     survivors_with_bets = pairwise(args)
@@ -27,7 +27,7 @@ async def bet(msg: Message):
     survivors = [survivor_with_bet[0] for survivor_with_bet in survivors_with_bets]
 
     for survivor in survivors:
-        if not db.survivor_exists(survivor):
+        if not db.get_survivor_by_name_or_false(survivor):
             raise Exception(f"Error: {survivor} is not a survivor")
 
     for survivor, amount in survivors_with_bets:

@@ -19,7 +19,7 @@ class MockRole:
 async def signup(msg: Message):
     user = msg.author
     db = DB()
-    if not db.fp_exists(user):
+    if not db.get_registed_user_or_false(user):
         db.create_fantasy_player(user)
         season_role = MockRole(db.get_setting("seasonRoleID"))
         not_playing_role = MockRole(db.get_setting('notSignedUpID'))

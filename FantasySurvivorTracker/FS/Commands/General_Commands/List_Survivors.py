@@ -12,7 +12,7 @@ from ...DB import DB
 
 async def list_survivors(msg: Message):
     db = DB()
-    survivors = db.get_survivors()
+    survivors = db.get_all_survivors()
     survivors.sort(key=lambda k: k["balance"])
     if len(survivors):
         res = "\n".join([f"{s['name']} - {s['balance']}" for s in survivors])

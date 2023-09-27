@@ -58,7 +58,7 @@ class User_Command(Command):
         user = msg.author
         if not user.bot:
             db = DB()
-            if db.fp_exists(user):
+            if db.get_registed_user_or_false(user):
                 await super().run(msg)
                 return
             else:

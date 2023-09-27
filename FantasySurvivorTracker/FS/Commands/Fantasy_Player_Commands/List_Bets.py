@@ -15,7 +15,7 @@ async def list_bets(msg: Message):
     user = msg.author
     if len(msg.mentions) > 0:
         user = msg.mentions[0]
-    id = db.fp_exists(user)
+    id = db.get_registed_user_or_false(user)
     if id is False:
         if user == msg.author:
             raise Exception("Error: You are not a user")
@@ -32,7 +32,7 @@ async def list_bets(msg: Message):
         total_bet_amounts[survivor] += db.get_bet_value(bet)
     response = ""
     for survivor, total_bet in total_bet_amounts.items():
-        survivor_name = db.get_survivor_player_by_id(survivor).get(
+        survivor_name = db.get_survivor_player_by_id_or_false(survivor).get(
             "name"
         )
         response += f"{total_bet:.2f} for {survivor_name}\n"

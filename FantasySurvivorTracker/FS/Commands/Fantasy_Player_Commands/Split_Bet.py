@@ -14,12 +14,12 @@ from ..utils import get_args
 async def split(msg: Message):
     user = msg.author
     db = DB()
-    user_id = db.fp_exists(user)
+    user_id = db.get_registed_user_or_false(user)
     args = get_args(msg)
     if len(args) == 0:
         raise Exception("no arguments provided")
     for name in args:
-        if not db.survivor_exists(name):
+        if not db.get_survivor_by_name_or_false(name):
             raise Exception(f"{name} is not a survivor")
     bank = db.get_balance(user_id)
     bet_per_player = bank / len(args)

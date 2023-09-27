@@ -20,7 +20,7 @@ async def del_survivor(msg: Message):
         raise Exception("Error: Survivor player name must be specified")
     name = args[0]
     db_client = DB()
-    if db_client.survivor_exists(name):
+    if db_client.get_survivor_by_name_or_false(name):
         db_client.delete_survivor_player(name)
         await msg.channel.send(f"Succesfully deleted Survivor Player {name}")
     else:

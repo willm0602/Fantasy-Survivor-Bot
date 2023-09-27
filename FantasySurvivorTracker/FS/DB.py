@@ -31,7 +31,7 @@ class DB:
 
     # !helper commands
 
-    def fp_exists(self, user: User):
+    def get_registed_user_or_false(self, user: User):
         """
         Check's if there is a fantasy player cooresponding to the discord user
 
@@ -52,7 +52,7 @@ class DB:
                 return _user.get("id")
         return False
 
-    def survivor_exists(self, name):
+    def get_survivor_by_name_or_false(self, name):
         """
         Check's if there is a Survivor player with the given name
 
@@ -81,7 +81,7 @@ class DB:
                 return _user
         return False
 
-    def get_survivor_player_by_id(self, id):
+    def get_survivor_player_by_id_or_false(self, id):
         """
         Check's if there is a Survivor player with the given id
 
@@ -155,11 +155,11 @@ class DB:
         share_count = bet.get("amount", None)
         if share_count is None:
             raise Exception("Unable to get value from bet, please check logs")
-        survivor = self.get_survivor_player_by_id(bet.get("survivorPlayer"))
+        survivor = self.get_survivor_player_by_id_or_false(bet.get("survivorPlayer"))
         bal = survivor.get("balance")
         return bal * share_count
 
-    def get_survivors(self):
+    def get_all_survivors(self):
         """
         gets a list of all survivors
 
@@ -181,7 +181,7 @@ class DB:
         )
         return survivors
 
-    def get_fantasy_players(self):
+    def get_all_fantasy_players(self):
         """
         returns: List[dict]
         """
@@ -218,7 +218,7 @@ class DB:
 
         @returns None
         """
-        player_id = self.fp_exists(user)
+        player_id = self.get_registed_user_or_false(user)
         self.supabase.from_("Bet").delete().match(
             {"fantasyPlayer": player_id}
         ).execute()
@@ -284,11 +284,11 @@ class DB:
                 return
 
     def delete_survivor_player(self, name: str):
-        survivor_player = self.survivor_exists(name)["id"]
+        survivor_player = self.get_survivor_by_name_or_false(name)["id"]
         self.supabase.from_("Bet").delete().match(
             {"survivorPlayer": survivor_player}
         ).execute()
-        if self.survivor_exists(name):
+        if self.get_survivor_by_name_or_false(name):
             self.supabase.from_(C.TABLE_NAMES.SURVIVOR_PLAYERS).delete().match(
                 {"name": name}
             ).execute()
@@ -298,7 +298,7 @@ class DB:
         self.supabase.from_(C.TABLE_NAMES.BACKUP).delete().neq("id", 0).execute()
 
         # backs up survivor scores
-        survivors = self.get_survivors()
+        survivors = self.get_all_survivors()
         for survivor in survivors:
             self.supabase.table(C.TABLE_NAMES.BACKUP).insert(
                 {
@@ -309,7 +309,7 @@ class DB:
             ).execute()
 
         # backs up fantasy player data
-        fantasy_players = self.get_fantasy_players()
+        fantasy_players = self.get_all_fantasy_players()
         for fp in fantasy_players:
             self.supabase.table(C.TABLE_NAMES.BACKUP).insert(
                 {
@@ -381,10 +381,10 @@ class DB:
         """
         if self.is_locked():
             raise Exception("Error: Betting is locked")
-        id = self.fp_exists(user)
+        id = self.get_registed_user_or_false(user)
         prev_bal = self.get_balance(id)
         survivor_name = survivor
-        survivor = self.survivor_exists(survivor)
+        survivor = self.get_survivor_by_name_or_false(survivor)
         if not survivor:
             raise Exception(f"Survivor {survivor_name} does not exist")
         survivor_id = survivor.get("id")
@@ -394,7 +394,7 @@ class DB:
             bet = prev_bal / survivor.get("balance")
         else:
             raise Exception("Invalid Bet Amount")
-        user_id = self.fp_exists(user)
+        user_id = self.get_registed_user_or_false(user)
         if user_id and survivor_id:
             self.supabase.table("Bet").insert(
                 {
@@ -423,8 +423,8 @@ class DB:
             raise Exception("Betting is locked")
         bets = self.supabase.from_("Bet").select("*").execute().data
         betExists = False
-        survivor_id = self.survivor_exists(survivor_name).get("id")
-        user_id = self.fp_exists(user)
+        survivor_id = self.get_survivor_by_name_or_false(survivor_name).get("id")
+        user_id = self.get_registed_user_or_false(user)
         if not survivor_id:
             raise Exception(f"{survivor_name} is not a survivor")
         for bet in bets:
@@ -432,9 +432,7 @@ class DB:
                 bet.get("survivorPlayer") == survivor_id
                 and bet.get("fantasyPlayer") == user_id
             ):
-                amount = bet.get("amount")
                 old_bal = self.get_balance(user_id)
-                survivor_player = self.get_survivor_player_by_id(bet["survivorPlayer"])
                 new_bal = old_bal + self.get_bet_value(bet)
                 self.update_balance(user, new_bal)
                 betExists = True
@@ -455,13 +453,13 @@ class DB:
         """
         if self.is_locked():
             raise Exception("Betting is locked")
-        user_id = self.fp_exists(user)
+        user_id = self.get_registed_user_or_false(user)
         if user_id is False:
             raise Exception("Error: No user found for this user")
         bets = self.get_all_bets_for_user(user_id)
         for bet in bets:
             survivor_id = bet.get('survivorPlayer')
-            survivor = self.get_survivor_player_by_id(survivor_id)['name']
+            survivor = self.get_survivor_player_by_id_or_false(survivor_id)['name']
             self.remove_bet(survivor, user)
 
     def get_total_bal(self, id: int):
