@@ -7,6 +7,7 @@ from .Reset import RESET_COMMAND
 from .Signup import SIGNUP_COMMAND
 from .Split_Bet import SPLIT_COMMAND
 from .View import VIEW_BALANCE_COMMAND
+from .Unspent import VIEW_UNSPENT_COMMAND
 
 COMMANDS = [
     SIGNUP_COMMAND,
@@ -18,5 +19,6 @@ COMMANDS = [
     RESET_COMMAND,
     SPLIT_COMMAND,
     ALL_IN_COMMAND,
+    VIEW_UNSPENT_COMMAND
 ]
 COMMANDS.sort(key=lambda k: k.desc)
