@@ -88,7 +88,7 @@ zipp = "==3.11.0"
 bandit = "*"
 
 [requires]
-python_version = "3.8"
+python_version = "3.12"
 
 [scripts]
 start="python ./__main__.py"
