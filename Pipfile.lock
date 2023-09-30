@@ -1,11 +1,11 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "4d682b8b52108b4ed8b33f1dec6e9be96d29cb0735c4c3c9e73df888fbbb034e"
+            "sha256": "ad7b1d633b90d38d29f8c95dd941e4cef20e7c3b989ebc2264e4c407bea40bb3"
         },
         "pipfile-spec": 6,
         "requires": {
-            "python_version": "3.8"
+            "python_version": "3.11"
         },
         "sources": [
             {
@@ -666,7 +666,6 @@
             "version": "==0.10.1"
         },
         "rfc3986": {
-            "extras": [],
             "hashes": [
                 "sha256:270aaf10d87d0d4e095063c65bf3ddbc6ee3d0b226328ce21e036f946e421835",
                 "sha256:a86d6e1f5b1dc238b218b012df0aa79409667bb209e58da56d0b94704e712a97"
