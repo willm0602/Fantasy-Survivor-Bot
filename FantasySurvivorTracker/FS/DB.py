@@ -4,11 +4,13 @@ Connects to supabase
 
 import json
 from os import environ
+from typing import List, Literal
 
 import supabase
 from discord.user import User
 
 from . import Constants as C
+from .Types import Bet, FantasyPlayer, Survivor
 
 # default bank value that a user has when starting
 # TODO: move to setting when it is ready
@@ -52,7 +54,26 @@ class DB:
                 return _user.get("id")
         return False
 
-    def get_survivor_by_name_or_false(self, name):
+    def get_registed_user_by_id_or_false(
+        self,
+        id: int
+    ) -> 'Literal[False] | FantasyPlayer':
+        """Returns the information for a user using their FP ID"""
+        query = (
+            self.supabase.from_(C.TABLE_NAMES.FANTASY_PLAYERS)
+            .select("*")
+            .filter('id', 'eq', id)
+            .execute()
+            .data
+        )
+        if query:
+            return query[0]
+        return False
+
+    def get_survivor_by_name_or_false(
+        self,
+        name
+    ) -> 'Literal[False] | Survivor':
         """
         Check's if there is a Survivor player with the given name
 
@@ -188,7 +209,7 @@ class DB:
         fps = self.supabase.from_("FantasyPlayers").select("*").execute().data
         return fps
 
-    def get_all_bets(self):
+    def get_all_bets(self) -> 'List[Bet]':
         bets = self.supabase.from_("Bet").select("*").execute().data
         return bets
 
