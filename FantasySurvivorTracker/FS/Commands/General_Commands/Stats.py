@@ -28,7 +28,7 @@ async def stats(msg: Message):
         }
     bets = db.get_all_bets()
     for bet in bets:
-        bet_amount = bet['amount']
+        bet_amount = db.get_bet_value(bet)
         survivor_id = bet['survivorPlayer']
         existing_data = survivor_stats[survivor_id]
         existing_data['players'].add(bet['fantasyPlayer'])

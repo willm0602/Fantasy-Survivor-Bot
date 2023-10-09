@@ -29,7 +29,7 @@ async def who_bet(msg: Message):
     all_bets = db.get_all_bets()
     bets: Dict[str, float] = {}
     for bet in all_bets:
-        bet_amount = bet['amount']
+        bet_amount = db.get_bet_value(bet)
         if bet['survivorPlayer'] != survivor['id']:
             continue
         fp_id = bet['fantasyPlayer']
