@@ -520,5 +520,4 @@ class DB:
         return self.get_setting("bettingLocked") == "yes"
 
     def log_command_to_db(self, command: 'CommandRun') -> None:
-        print('COMMAND IS', command)
         self.supabase.from_(C.TABLE_NAMES.COMMAND_RUN_TABLE).insert(command).execute()
