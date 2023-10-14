@@ -1,11 +1,13 @@
+from datetime import datetime
 import sys
 import traceback
 from email import message
 from typing import Callable
+from .Types import CommandRun
 
 from discord.message import Message
 
-from .Commands.utils import is_admin
+from .Commands.utils import get_args, is_admin
 from .DB import DB
 
 DEFAULT_DESCRIPTION = "A Fantasy Survivor Command"
@@ -23,9 +25,13 @@ class Command:
         return msg[len("fs.") :].startswith(self.trigger)
 
     async def run(self, msg: Message):
+        start_time = datetime.now()
         if not msg.author.bot:
             try:
                 await self.action(msg)
+                was_successful = True
+                end_time = datetime.now()
+                duration = (end_time - start_time).seconds
             except Exception as e:
                 await msg.channel.send(e)
 
@@ -38,7 +44,18 @@ class Command:
                 print(
                     f"{error_class} exception on line {line} of file: {detail}\n{e.args}"
                 )
-
+                was_successful = False
+                end_time = datetime.now()
+                duration = (end_time - start_time).microseconds / 1000000
+            command_run: 'CommandRun' = {
+                "time_ran":  start_time.strftime('%Y-%m-%dT%H:%M:%S.%fZ'),
+                "user_ran": msg.author.display_name,
+                "time_to_complete": duration,
+                "errored": not was_successful,
+                "trigger": self.trigger,
+                "arguments": get_args(msg)
+            }
+            DB().log_command_to_db(command_run)
 
 class Admin_Command(Command):
     async def run(self, msg: Message):

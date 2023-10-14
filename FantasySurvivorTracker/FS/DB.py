@@ -10,7 +10,7 @@ import supabase
 from discord.user import User
 
 from . import Constants as C
-from .Types import Bet, FantasyPlayer, Survivor
+from .Types import Bet, CommandRun, FantasyPlayer, Survivor
 
 # default bank value that a user has when starting
 # TODO: move to setting when it is ready
@@ -180,7 +180,7 @@ class DB:
         bal = survivor.get("balance")
         return bal * share_count
 
-    def get_all_survivors(self):
+    def get_all_survivors(self) -> List[Survivor]:
         """
         gets a list of all survivors
 
@@ -518,3 +518,6 @@ class DB:
 
     def is_locked(self):
         return self.get_setting("bettingLocked") == "yes"
+
+    def log_command_to_db(self, command: 'CommandRun') -> None:
+        self.supabase.from_(C.TABLE_NAMES.COMMAND_RUN_TABLE).insert(command).execute()
