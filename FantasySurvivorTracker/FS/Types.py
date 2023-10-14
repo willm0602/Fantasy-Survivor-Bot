@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import TypedDict
+from typing import List, TypedDict
 
 class FantasyPlayer(TypedDict):
     id: int
@@ -18,3 +18,12 @@ class Bet(TypedDict):
     amount: float
     fantasyPlayer: int
     survivorPlayer: int
+
+class CommandRun(TypedDict):
+    id: int
+    time_ran: datetime
+    user_ran: str
+    time_to_complete: float
+    errored: bool
+    trigger: str
+    arguments: List[str]
