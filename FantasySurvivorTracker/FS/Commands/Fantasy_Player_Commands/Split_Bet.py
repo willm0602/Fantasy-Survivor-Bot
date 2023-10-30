@@ -14,6 +14,7 @@ from ..utils import get_args
 async def split(msg: Message):
     user = msg.author
     db = DB()
+    db.remove_all_bets(user)
     user_id = db.get_registed_user_or_false(user)
     args = get_args(msg)
     if len(args) == 0:
