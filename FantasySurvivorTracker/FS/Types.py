@@ -27,3 +27,4 @@ class CommandRun(TypedDict):
     errored: bool
     trigger: str
     arguments: List[str]
+    traceback: str

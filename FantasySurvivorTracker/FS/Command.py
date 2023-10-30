@@ -4,6 +4,7 @@ import traceback
 from email import message
 from typing import Callable
 from .Types import CommandRun
+import traceback
 
 from discord.message import Message
 
@@ -53,7 +54,8 @@ class Command:
                 "time_to_complete": duration,
                 "errored": not was_successful,
                 "trigger": self.trigger,
-                "arguments": get_args(msg)
+                "arguments": get_args(msg),
+                "traceback": str(traceback.format_exception(e))
             }
             DB().log_command_to_db(command_run)
 
