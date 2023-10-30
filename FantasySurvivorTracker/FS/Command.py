@@ -37,6 +37,7 @@ class Command:
 
     async def run(self, msg: Message):
         start_time = datetime.now()
+        error_msg = ''
         if not msg.author.bot:
             try:
                 await self.action(msg)
@@ -58,6 +59,7 @@ class Command:
                 was_successful = False
                 end_time = datetime.now()
                 duration = (end_time - start_time).microseconds / 1000000
+                error_msg = str(traceback.format_exception(e)) + '\nLOCALS: ' + safe_locals()
             command_run: 'CommandRun' = {
                 "time_ran":  start_time.strftime('%Y-%m-%dT%H:%M:%S.%fZ'),
                 "user_ran": msg.author.display_name,
@@ -65,7 +67,7 @@ class Command:
                 "errored": not was_successful,
                 "trigger": self.trigger,
                 "arguments": get_args(msg),
-                "traceback": str(traceback.format_exception(e)) + '\nLOCALS: ' + safe_locals()
+                "traceback": error_msg
             }
             DB().log_command_to_db(command_run)
 
