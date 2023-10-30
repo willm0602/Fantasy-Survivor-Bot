@@ -5,6 +5,7 @@ from email import message
 from typing import Callable
 from .Types import CommandRun
 import traceback
+import json
 
 from discord.message import Message
 
@@ -59,7 +60,7 @@ class Command:
                 was_successful = False
                 end_time = datetime.now()
                 duration = (end_time - start_time).microseconds / 1000000
-                error_msg = str(traceback.format_exception(e)) + '\nLOCALS: ' + safe_locals()
+                error_msg = str(traceback.format_exception(e)) + '\nLOCALS: ' + json.dumps(safe_locals(), indent=4)
             command_run: 'CommandRun' = {
                 "time_ran":  start_time.strftime('%Y-%m-%dT%H:%M:%S.%fZ'),
                 "user_ran": msg.author.display_name,
