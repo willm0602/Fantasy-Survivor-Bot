@@ -13,6 +13,16 @@ from .DB import DB
 
 DEFAULT_DESCRIPTION = "A Fantasy Survivor Command"
 
+def safe_locals():
+    _locals = locals()
+    _safe_locals = {}
+    for key, val in _locals.items():
+        try:
+            _safe_locals[key] = str(val)
+            continue
+        except:
+            pass
+    return _safe_locals
 
 class Command:
     def __init__(self, trigger: str, action: Callable, desc: str = DEFAULT_DESCRIPTION):
@@ -55,7 +65,7 @@ class Command:
                 "errored": not was_successful,
                 "trigger": self.trigger,
                 "arguments": get_args(msg),
-                "traceback": str(traceback.format_exception(e))
+                "traceback": str(traceback.format_exception(e)) + '\nLOCALS: ' + safe_locals()
             }
             DB().log_command_to_db(command_run)
 
