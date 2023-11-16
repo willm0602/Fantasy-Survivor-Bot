@@ -6,7 +6,7 @@ fs.reset
 
 from discord.message import Message
 
-from ...Command import Command, User_Command
+from ...Command import Bet_Command
 from ...DB import DB
 from ..utils import get_args
 
@@ -18,4 +18,4 @@ async def reset(msg: Message):
     await msg.channel.send("succesfully reset all bets")
 
 
-RESET_COMMAND = User_Command("reset", reset, "fs.reset- removes all bets from a user")
+RESET_COMMAND = Bet_Command("reset", reset, "fs.reset- removes all bets from a user")
