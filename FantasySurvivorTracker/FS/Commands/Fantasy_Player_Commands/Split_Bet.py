@@ -6,7 +6,7 @@ fs.split *[survivor name]
 
 from discord.message import Message
 
-from ...Command import Command, User_Command
+from ...Command import Command, Bet_Command
 from ...DB import DB
 from ..utils import get_args
 
@@ -32,7 +32,7 @@ async def split(msg: Message):
     await msg.channel.send("successfully split")
 
 
-SPLIT_COMMAND = User_Command(
+SPLIT_COMMAND = Bet_Command(
     "split",
     split,
     "fs.split [survivor_names]* - splits your remaining bank between each name",
