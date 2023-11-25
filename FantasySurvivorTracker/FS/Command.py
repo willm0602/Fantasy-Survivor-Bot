@@ -9,7 +9,7 @@ import json
 
 from discord.message import Message
 
-from .Commands.utils import get_args, is_admin
+from .Commands.utils import get_args, is_admin, list_bets
 from .DB import DB
 
 DEFAULT_DESCRIPTION = "A Fantasy Survivor Command"
@@ -97,3 +97,10 @@ class User_Command(Command):
                 await msg.channel.send(
                     "Error: you need to be a user to run this command"
                 )
+
+
+class Bet_Command(User_Command):
+    async def run(self, msg: Message):
+        await super().run(msg)
+        if DB().get_registed_user_or_false(msg.author):
+            await list_bets(msg)

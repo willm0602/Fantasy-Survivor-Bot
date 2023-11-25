@@ -6,7 +6,7 @@ fs.bet [survivor name] [balance]
 
 from discord.message import Message
 
-from ...Command import Command, User_Command
+from ...Command import Command, User_Command, Bet_Command
 from ...DB import DB
 from ..utils import get_args, pairwise
 
@@ -35,6 +35,6 @@ async def bet(msg: Message):
     await msg.channel.send("Succesfully Created Bet")
 
 
-BET_COMMAND = User_Command(
+BET_COMMAND = Bet_Command(
     "bet", bet, "fs.bet [survivor_name] [balance]- creates a bet for that survivor"
 )
