@@ -86,6 +86,6 @@ class User_Command(Command):
 
 class Bet_Command(User_Command):
     async def run(self, msg: Message):
-        super().run(msg)
+        await super().run(msg)
         if DB().get_registed_user_or_false(msg.author):
             await list_bets(msg)
