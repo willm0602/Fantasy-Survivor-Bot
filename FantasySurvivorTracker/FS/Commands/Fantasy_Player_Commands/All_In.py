@@ -22,7 +22,7 @@ async def all_in(msg: Message):
     if survivor is False:
         raise Exception(f"{args[0]} is not a survivor")
 
-    bank = db.get_balance(user_id)
+    bank = db.get_unspent_balance(user_id)
     if bank <= 0:
         raise Exception("Error: You have no money to bet")
 

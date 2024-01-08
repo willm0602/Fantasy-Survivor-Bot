@@ -14,7 +14,7 @@ async def view_unspent(msg: Message):
     db = DB()
     user = msg.author
     user_id = db.get_registed_user_or_false(user)
-    bal = db.get_balance(user_id)
+    bal = db.get_unspent_balance(user_id)
     if bal is not False:
         bal = round(bal, 4)
         await msg.channel.send(f"You currently have {bal} unspent")
