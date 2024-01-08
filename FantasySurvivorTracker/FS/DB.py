@@ -360,10 +360,11 @@ class DB:
             the users balance that is not spent on other players currently
         """
 
+        sync_builder = self.supabase.from_("FantasyPlayers").select('*')
         if discord_id:
-            query: List[FantasyPlayer] = self.supabase.from_("FantasyPlayers").eq('discord_id', discord_id).select("*").execute().data
+            query: List[FantasyPlayer] = sync_builder.eq('discord_id', discord_id).execute().data
         else:            
-            query: List[FantasyPlayer] = self.supabase.from_("FantasyPlayers").select("*").execute().data
+            query: List[FantasyPlayer] = sync_builder.eq('id', id).execute().data
         if len(query):
             return query[0]['bank']
         return False
