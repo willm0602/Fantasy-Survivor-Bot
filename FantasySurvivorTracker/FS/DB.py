@@ -150,7 +150,7 @@ class DB:
                 the amount the bet is for
         """
         user_id = id
-        bets = self.supabase.from_("Bet").select("*").execute().data
+        bets = self.supabase.from_(C.TABLE_NAMES.BET).select("*").execute().data
         user_bets = []
         for bet in bets:
             if bet.get("fantasyPlayer") == user_id:
@@ -444,7 +444,7 @@ class DB:
                 betExists = True
         if not betExists:
             raise Exception("Error: bet does not exist")
-        self.supabase.from_("Bet").delete().match(
+        self.supabase.from_(C.TABLE_NAMES.BET).delete().match(
             {"fantasyPlayer": user_id, "survivorPlayer": survivor_id}
         ).execute()
 
