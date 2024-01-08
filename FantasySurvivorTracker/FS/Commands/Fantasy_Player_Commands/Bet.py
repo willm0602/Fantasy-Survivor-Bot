@@ -19,7 +19,7 @@ async def bet(msg: Message):
         raise Exception("Error: Not Enough Args Specified")
 
     user_id = db.get_registed_user_or_false(user)
-    player_current_bal = float(db.get_balance(user_id))
+    player_current_bal = float(db.get_unspent_balance(user_id))
 
     survivors_with_bets = pairwise(args)
 
