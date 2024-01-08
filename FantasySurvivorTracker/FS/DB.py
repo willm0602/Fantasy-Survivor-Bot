@@ -168,20 +168,16 @@ class DB:
     
     def get_bet_value(self, bet: dict) -> float:
         """
-        DEPRECATED
+        NOTE: Should not be used, this is just being left in since there are some places when using
+        an old betting system that use this
         returns the value of a bet
 
         bet: Bet
         returns: float
             returns the value
         """
-        share_count = bet.get("amount", None)
-        if share_count is None:
-            raise Exception("Unable to get value from bet, please check logs")
-        survivor = self.get_survivor_player_by_id_or_false(bet.get("survivorPlayer"))
-        bal = survivor.get("balance")
-        return bal * share_count
-
+        return bet.get('amount', 0)
+    
     def get_all_survivors(self) -> List[Survivor]:
         """
         gets a list of all survivors
