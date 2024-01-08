@@ -291,6 +291,7 @@ class DB:
         self.supabase.execute(query)
 
     def delete_survivor_player(self, name: str):
+        self.supabase.from_(C.TABLE_NAMES.BET).delete().neq('id', -1).execute()
         self.supabase.from_(C.TABLE_NAMES.SURVIVOR_PLAYERS).delete().match(
             {"name": name}
         ).execute()
