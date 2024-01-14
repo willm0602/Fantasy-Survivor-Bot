@@ -14,21 +14,22 @@ from ..utils import get_args
 async def split(msg: Message):
     user = msg.author
     db = DB()
-    db.remove_all_bets(user)
-    user_id = db.get_registed_user_or_false(user)
     args = get_args(msg)
     if len(args) == 0:
         raise Exception("no arguments provided")
     for name in args:
         if not db.get_survivor_by_name_or_false(name):
             raise Exception(f"{name} is not a survivor")
-    bank = db.get_unspent_balance(user_id)
+    db.remove_all_bets(user)
+    bank = db.get_unspent_balance(discord_id=user.id)
+    if bank is None:
+        raise Exception("No money to bet")
     bet_per_player = bank / len(args)
     for name in args[:-1]:
         db.create_bet(user, name, bet_per_player)
 
     # avoids rounding issues
-    bank = db.get_unspent_balance(user_id)
+    bank = db.get_unspent_balance(discord_id=user.id)
     db.create_bet(user, args[-1], bank)
     await msg.channel.send("successfully split")
 

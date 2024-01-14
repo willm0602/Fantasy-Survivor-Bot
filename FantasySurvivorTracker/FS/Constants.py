@@ -4,4 +4,4 @@ class TABLE_NAMES:
     BET = "Bet2"
     SETTINGS = "Settings"
     BACKUP = "BackupData"
-    COMMAND_RUN_TABLE = 'CommandRun'
+    COMMAND_RUN_TABLE = "CommandRun"

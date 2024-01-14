@@ -11,9 +11,8 @@ from ...Command import Command
 from ...DB import DB
 
 
-
 class MockRole:
-    """We need to pass in an object w/ an id to simulate the role that we're 
+    """We need to pass in an object w/ an id to simulate the role that we're
     modifying"""
 
     def __init__(self, id):
@@ -22,13 +21,14 @@ class MockRole:
     def __bool__(self):
         return self.id is not None
 
+
 async def signup(msg: Message):
     user = msg.author
     db = DB()
     if not db.get_registed_user_or_false(user):
         db.create_fantasy_player(user)
         season_role = MockRole(db.get_setting("seasonRoleID"))
-        not_playing_role = MockRole(db.get_setting('notSignedUpID'))
+        not_playing_role = MockRole(db.get_setting("notSignedUpID"))
         if season_role:
             await user.add_roles(season_role)
         if not not_playing_role:

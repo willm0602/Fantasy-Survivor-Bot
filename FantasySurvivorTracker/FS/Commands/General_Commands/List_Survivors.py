@@ -20,6 +20,7 @@ async def list_survivors(msg: Message):
     else:
         await msg.channel.send("No Survivors Yet")
 
+
 LIST_SURVIVORS_COMMAND = Command(
     "list_survivors", list_survivors, "fs.list_survivors- shows all survivors"
 )

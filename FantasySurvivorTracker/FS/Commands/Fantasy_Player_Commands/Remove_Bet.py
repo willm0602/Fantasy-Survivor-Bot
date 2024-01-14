@@ -23,5 +23,7 @@ async def remove_bet(msg: Message):
 
 
 REMOVE_BET_COMMAND = Bet_Command(
-    "remove_bet", remove_bet, "fs.remove_bet [survivor name]- removes all bets you made for the given survivor"
+    "remove_bet",
+    remove_bet,
+    "fs.remove_bet [survivor name]- removes all bets you made for the given survivor",
 )

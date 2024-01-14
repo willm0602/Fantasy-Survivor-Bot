@@ -22,6 +22,7 @@ class DB:
     Constructor- loads information from the config.json file to
     connect to supabase
     """
+
     supabase: supabase.Client
 
     def __init__(self):
@@ -56,14 +57,13 @@ class DB:
         return False
 
     def get_registed_user_by_id_or_false(
-        self,
-        id: int
-    ) -> 'Literal[False] | FantasyPlayer':
+        self, id: int
+    ) -> "Literal[False] | FantasyPlayer":
         """Returns the information for a user using their FP ID"""
         query = (
             self.supabase.from_(C.TABLE_NAMES.FANTASY_PLAYERS)
             .select("*")
-            .filter('id', 'eq', id)
+            .filter("id", "eq", id)
             .execute()
             .data
         )
@@ -71,10 +71,7 @@ class DB:
             return query[0]
         return False
 
-    def get_survivor_by_name_or_false(
-        self,
-        name
-    ) -> 'Literal[False] | Survivor':
+    def get_survivor_by_name_or_false(self, name) -> "Literal[False] | Survivor":
         """
         Check's if there is a Survivor player with the given name
 
@@ -95,7 +92,7 @@ class DB:
         query = (
             self.supabase.from_(C.TABLE_NAMES.SURVIVOR_PLAYERS)
             .select("*")
-            .ilike('name', name)
+            .ilike("name", name)
             .execute()
             .data
         )
@@ -124,7 +121,7 @@ class DB:
         query = (
             self.supabase.from_(C.TABLE_NAMES.SURVIVOR_PLAYERS)
             .select("*")
-            .eq('id', id)
+            .eq("id", id)
             .execute()
             .data
         )
@@ -157,15 +154,16 @@ class DB:
                 user_bets.append(bet)
         return user_bets
 
-    
     def get_all_bets_for_user_by_discord_id(self, discord_id: str) -> List[Bet2]:
         """Gets all of the bets a user has given their discord id"""
-        return self.supabase.from_(
-            C.TABLE_NAMES.BET
-        ).select("*").eq(
-            'discord_id', discord_id
-        ).execute().data
-    
+        return (
+            self.supabase.from_(C.TABLE_NAMES.BET)
+            .select("*")
+            .eq("discord_id", discord_id)
+            .execute()
+            .data
+        )
+
     def get_bet_value(self, bet: dict) -> float:
         """
         NOTE: Should not be used, this is just being left in since there are some places when using
@@ -176,8 +174,9 @@ class DB:
         returns: float
             returns the value
         """
-        return bet.get('amount', 0)
-    
+        print("BET", bet, "AMOUNT", bet.get("amount", 0))
+        return bet.get("amount", 0)
+
     def get_all_survivors(self) -> List[Survivor]:
         """
         gets a list of all survivors
@@ -207,7 +206,7 @@ class DB:
         fps = self.supabase.from_("FantasyPlayers").select("*").execute().data
         return fps
 
-    def get_all_bets(self) -> 'List[Bet2]':
+    def get_all_bets(self) -> "List[Bet2]":
         bets = self.supabase.from_(C.TABLE_NAMES.BET).select("*").execute().data
         return bets
 
@@ -283,11 +282,11 @@ class DB:
             the factor to multiply the survivor players score by
         """
         bets_table = C.TABLE_NAMES.BET
-        query = f'UPDATE {bets_table} SET amount = amount * 2'
+        query = f"UPDATE {bets_table} SET amount = amount * 2"
         self.supabase.execute(query)
 
     def delete_survivor_player(self, name: str):
-        self.supabase.from_(C.TABLE_NAMES.BET).delete().neq('id', -1).execute()
+        self.supabase.from_(C.TABLE_NAMES.BET).delete().neq("id", -1).execute()
         self.supabase.from_(C.TABLE_NAMES.SURVIVOR_PLAYERS).delete().match(
             {"name": name}
         ).execute()
@@ -339,16 +338,22 @@ class DB:
 
     def reset_season(self):
         self.supabase.from_(C.TABLE_NAMES.BET).delete().neq("id", 0).execute()
-        self.supabase.from_(C.TABLE_NAMES.FANTASY_PLAYERS).delete().neq("id", 0).execute()
-        self.supabase.from_(C.TABLE_NAMES.SURVIVOR_PLAYERS).delete().neq("id", 0).execute()
+        self.supabase.from_(C.TABLE_NAMES.FANTASY_PLAYERS).delete().neq(
+            "id", 0
+        ).execute()
+        self.supabase.from_(C.TABLE_NAMES.SURVIVOR_PLAYERS).delete().neq(
+            "id", 0
+        ).execute()
 
-    def get_unspent_balance(self, id: int=None, discord_id: str = None) -> FantasyPlayer:
+    def get_unspent_balance(
+        self, id: int = None, discord_id: str = None
+    ) -> FantasyPlayer:
         """
         gets the balance of a fantasy player
 
         id: int-
             the id of the fantasy player
-            
+
         discord_int: str-
             the discord id for the fantasy player
 
@@ -356,14 +361,17 @@ class DB:
             the users balance that is not spent on other players currently
         """
 
-        sync_builder = self.supabase.from_("FantasyPlayers").select('*')
+        sync_builder = self.supabase.from_("FantasyPlayers").select("*")
         if discord_id:
-            query: List[FantasyPlayer] = sync_builder.match({'discord_id': discord_id}).execute().data
-        else:            
-            query: List[FantasyPlayer] = sync_builder.match({'id': id}).execute().data
+            query: List[FantasyPlayer] = (
+                sync_builder.match({"discord_id": discord_id}).execute().data
+            )
+        else:
+            query: List[FantasyPlayer] = sync_builder.match({"id": id}).execute().data
         if len(query):
-            return query[0]['bank']
-        return False
+            print("THERE IS A QUERY RESULT", query[0])
+            return query[0].get("bank", 0)
+        return None
 
     def create_bet(self, user: User, survivor: str, bet: float):
         """
@@ -380,26 +388,28 @@ class DB:
             returns true if the bet is succesfully made, otherwise False
 
         """
+        print("CREATING BET", user, survivor, bet)
         if self.is_locked():
             raise Exception("Error: Betting is locked")
         fp_id = self.get_registed_user_or_false(user)
         if not fp_id:
-            raise Exception('Error: you must be registered to place bets')
+            raise Exception("Error: you must be registered to place bets")
         prev_bal = self.get_unspent_balance(fp_id)
         survivor_name = survivor
         survivor = self.get_survivor_by_name_or_false(survivor)
         if not survivor:
             raise Exception(f"Survivor {survivor_name} does not exist")
         survivor_id = survivor.get("id")
-        if prev_bal >= bet:
+        if prev_bal <= bet:
             bet = prev_bal
+        print("\n\nAMOUNT", bet)
         self.supabase.table(C.TABLE_NAMES.BET).insert(
             {
                 "fantasyPlayer": fp_id,
                 "survivorPlayer": survivor_id,
                 "amount": bet,
-                'discord_id': user.id,
-                'survivor_name': survivor
+                "discord_id": user.id,
+                "survivor_name": survivor,
             }
         ).execute()
         self.update_balance(user, prev_bal - bet)
@@ -411,31 +421,35 @@ class DB:
 
         survivor_name: str
             the name of the survivor player that the user is removing all the bets for
-        
+
         user: discord.User
             the discord user we are removing the bets for
         returns: None
         """
         if self.is_locked():
             raise Exception("Betting is locked")
-        
-        bets: Bet2 = self.supabase.from_(
-            C.TABLE_NAMES.BET
-        ).select("*").eq('discord_id', user.id).execute().data
-        
+
+        bets: Bet2 = (
+            self.supabase.from_(C.TABLE_NAMES.BET)
+            .select("*")
+            .eq("discord_id", user.id)
+            .execute()
+            .data
+        )
+
         survivor_id = self.get_survivor_by_name_or_false(survivor_name).get("id")
         user_id = self.get_registed_user_or_false(user)
-        
+
         if not survivor_id:
             raise Exception(f"{survivor_name} is not a survivor")
-        
+
         for bet in bets:
             if (
                 bet.get("survivorPlayer") == survivor_id
                 and bet.get("fantasyPlayer") == user_id
             ):
                 old_bal = self.get_unspent_balance(user_id)
-                new_bal = old_bal + bet.get('amount')
+                new_bal = old_bal + bet.get("amount")
                 self.update_balance(user, new_bal)
                 betExists = True
         if not betExists:
@@ -458,30 +472,44 @@ class DB:
         user_id = self.get_registed_user_or_false(user)
         if user_id is False:
             raise Exception("Error: No user found for this user")
-        self.update_balance(user)
-        self.supabase.from_(C.TABLE_NAMES.BET).delete().eq('discord_id', user.id).execute()
-    
-    def get_total_bal(self, id: int) -> float:
+        total_bal = self.get_total_bal(discord_id=user.id)
+        self.supabase.from_(C.TABLE_NAMES.BET).delete().eq(
+            "discord_id", user.id
+        ).execute()
+        self.update_balance(user, total_bal)
+
+    def get_total_bal(self, id: int = None, discord_id=None) -> float:
         """
         Get the total balance for a user
         """
-        bets = self.get_all_bets_for_user(id)
-        total = self.get_unspent_balance(id)
+        if id is None and discord_id is None:
+            raise Exception("Error: must provide id or discord_id")
+
+        if discord_id is not None:
+            bets = self.get_all_bets_for_user_by_discord_id(discord_id)
+            total = self.get_unspent_balance(discord_id=discord_id)
+        else:
+            bets = self.get_all_bets_for_user(id=id)
+            total = self.get_unspent_balance(id=id)
         for bet in bets:
             total = total + self.get_bet_value(bet)
         return total
 
     #! Lets admins control settings
     def set_setting(self, key: str, val: str):
-        setting_exists = self.supabase.from_('Settings').select('*').match({
-            'key': key
-        }).execute().data
+        setting_exists = (
+            self.supabase.from_("Settings")
+            .select("*")
+            .match({"key": key})
+            .execute()
+            .data
+        )
         if setting_exists:
             self.supabase.from_("Settings").update({"val": val}).match(
                 {"key": key}
             ).execute()
         else:
-            self.supabase.from_('Settings').insert({'key': key, 'val': val}).execute()
+            self.supabase.from_("Settings").insert({"key": key, "val": val}).execute()
 
     def get_setting(self, key):
         query = self.supabase.from_("Settings").select("*").execute().data
@@ -499,5 +527,5 @@ class DB:
     def is_locked(self):
         return self.get_setting("bettingLocked") == "yes"
 
-    def log_command_to_db(self, command: 'CommandRun') -> None:
+    def log_command_to_db(self, command: "CommandRun") -> None:
         self.supabase.from_(C.TABLE_NAMES.COMMAND_RUN_TABLE).insert(command).execute()

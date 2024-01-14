@@ -5,6 +5,7 @@ from discord.user import User
 
 from ..DB import DB
 
+
 # parses a discord message to get the command, args and user from it
 # used instead of standard "discord py" commands
 def parse_message(msg: Message):
@@ -68,8 +69,6 @@ async def list_bets(msg: Message):
         total_bet_amounts[survivor] += db.get_bet_value(bet)
     response = ""
     for survivor, total_bet in total_bet_amounts.items():
-        survivor_name = db.get_survivor_player_by_id_or_false(survivor).get(
-            "name"
-        )
+        survivor_name = db.get_survivor_player_by_id_or_false(survivor).get("name")
         response += f"{total_bet:.2f} for {survivor_name}\n"
     await msg.channel.send(response)

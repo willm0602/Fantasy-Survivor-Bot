@@ -10,6 +10,7 @@ import discord
 
 class FakeUser:
     """Class to simulate a discord user"""
+
     id: int
     username: str
     bot = False
@@ -25,7 +26,7 @@ BOT.bot = True
 
 class FakeChannel:
     id = 1
-    name = 'Fake Channel'
+    name = "Fake Channel"
     messages: List["FakeMesssage"]
 
     def __init__(self, messages: List["FakeMessage"] = []):
@@ -35,7 +36,7 @@ class FakeChannel:
         self.messages.append(FakeMesssage(self, message))
 
     def get_contents(self):
-        return '\n'.join([message.content for message in self.messages])
+        return "\n".join([message.content for message in self.messages])
 
 
 class FakeMesssage:
@@ -50,9 +51,11 @@ class FakeMesssage:
         self.author = author
         self.mentions = []
 
+
 def make_fake_message(content: str, author: FakeUser = BOT):
     channel = FakeChannel()
     return FakeMesssage(channel, content, author)
+
 
 def run(msg: FakeMesssage) -> FakeChannel:
     content: str = msg.content

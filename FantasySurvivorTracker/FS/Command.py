@@ -14,6 +14,7 @@ from .DB import DB
 
 DEFAULT_DESCRIPTION = "A Fantasy Survivor Command"
 
+
 def safe_locals():
     _locals = locals()
     _safe_locals = {}
@@ -24,6 +25,7 @@ def safe_locals():
         except:
             pass
     return _safe_locals
+
 
 class Command:
     def __init__(self, trigger: str, action: Callable, desc: str = DEFAULT_DESCRIPTION):
@@ -38,7 +40,7 @@ class Command:
 
     async def run(self, msg: Message):
         start_time = datetime.now()
-        error_msg = ''
+        error_msg = ""
         if not msg.author.bot:
             try:
                 await self.action(msg)
@@ -60,17 +62,22 @@ class Command:
                 was_successful = False
                 end_time = datetime.now()
                 duration = (end_time - start_time).microseconds / 1000000
-                error_msg = str(traceback.format_exception(e)) + '\nLOCALS: ' + json.dumps(safe_locals(), indent=4)
-            command_run: 'CommandRun' = {
-                "time_ran":  start_time.strftime('%Y-%m-%dT%H:%M:%S.%fZ'),
+                error_msg = (
+                    str(traceback.format_exception(e))
+                    + "\nLOCALS: "
+                    + json.dumps(safe_locals(), indent=4)
+                )
+            command_run: "CommandRun" = {
+                "time_ran": start_time.strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
                 "user_ran": msg.author.display_name,
                 "time_to_complete": duration,
                 "errored": not was_successful,
                 "trigger": self.trigger,
                 "arguments": get_args(msg),
-                "traceback": error_msg
+                "traceback": error_msg,
             }
             DB().log_command_to_db(command_run)
+
 
 class Admin_Command(Command):
     async def run(self, msg: Message):
