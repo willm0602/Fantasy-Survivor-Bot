@@ -15,7 +15,7 @@ async def reset(msg: Message):
     user = msg.author
     db = DB()
     db.remove_all_bets(user)
-    await msg.channel.send("succesfully reset all bets")
+    await msg.channel.send("successfully reset all bets", reference=msg)
 
 
 RESET_COMMAND = Bet_Command("reset", reset, "fs.reset- removes all bets from a user")

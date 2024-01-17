@@ -18,13 +18,13 @@ async def who_bet(msg: Message):
     db = DB()
     args = get_args(msg)
     if len(args) == 0:
-        await msg.channel.send("No arguments provided")
+        await msg.channel.send("No arguments provided", reference=msg)
         raise ValueError
     survivor_name = args[0]
 
     survivor = db.get_survivor_by_name_or_false(survivor_name)
     if survivor is False:
-        await msg.channel.send(f"{survivor_name} is not a survivor")
+        await msg.channel.send(f"{survivor_name} is not a survivor", reference=msg)
         raise ValueError
 
     all_bets = db.get_all_bets()
@@ -43,7 +43,7 @@ async def who_bet(msg: Message):
                 bets[fp_name] = bet_amount
     sorted_bets = sorted(bets.items(), key=lambda bet: bet[1], reverse=True)
     _msg = "\n".join([f"{bet[0]}- {bet[1]}" for bet in sorted_bets])
-    await msg.channel.send(_msg)
+    await msg.channel.send(_msg, reference=msg)
 
 
 WHO_BET_COMMAND = Command(

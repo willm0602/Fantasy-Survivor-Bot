@@ -8,7 +8,7 @@ from ...DB import DB
 async def restore(msg):
     db_client = DB()
     db_client.restore()
-    await msg.channel.send(f"Succesfully restored scores")
+    await msg.channel.send(f"successfully restored scores", reference=msg)
 
 
 RESTORE_COMMAND = Admin_Command(

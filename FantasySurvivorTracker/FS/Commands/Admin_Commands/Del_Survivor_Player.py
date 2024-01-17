@@ -22,7 +22,7 @@ async def del_survivor(msg: Message):
     db_client = DB()
     if db_client.get_survivor_by_name_or_false(name):
         db_client.delete_survivor_player(name)
-        await msg.channel.send(f"Succesfully deleted Survivor Player {name}")
+        await msg.channel.send(f"successfully deleted Survivor Player {name}", reference=msg)
     else:
         raise Exception("Error: Player Doesn't Exists")
 

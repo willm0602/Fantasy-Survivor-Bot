@@ -17,7 +17,7 @@ from ..utils import parse_message
 async def unlock_bets(msg: Message):
     db = DB()
     db.unlock_bets()
-    await msg.channel.send("unlocked bets")
+    await msg.channel.send("unlocked bets", reference=msg)
 
 
 UNLOCK_BETS_COMMAND = Admin_Command(

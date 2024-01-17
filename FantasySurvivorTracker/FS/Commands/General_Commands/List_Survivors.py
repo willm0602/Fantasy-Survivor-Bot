@@ -16,9 +16,9 @@ async def list_survivors(msg: Message):
     survivors.sort(key=lambda s: s["name"])
     if len(survivors):
         res = "\n".join([f"{s['name']}" for s in survivors])
-        await msg.channel.send(res)
+        await msg.channel.send(res, reference=msg)
     else:
-        await msg.channel.send("No Survivors Yet")
+        await msg.channel.send("No Survivors Yet", reference=msg)
 
 
 LIST_SURVIVORS_COMMAND = Command(

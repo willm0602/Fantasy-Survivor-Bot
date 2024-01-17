@@ -385,7 +385,7 @@ class DB:
             the amount being bet
 
         returns: bool
-            returns true if the bet is succesfully made, otherwise False
+            returns true if the bet is successfully made, otherwise False
 
         """
         print("CREATING BET", user, survivor, bet)

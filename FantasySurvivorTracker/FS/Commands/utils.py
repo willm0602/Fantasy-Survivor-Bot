@@ -59,7 +59,7 @@ async def list_bets(msg: Message):
         raise Exception("Error: this person is not a user")
     bets = db.get_all_bets_for_user(id)
     if len(bets) == 0:
-        await msg.channel.send("You have no bets placed")
+        await msg.channel.send("You have no bets placed", reference=msg)
         return
     total_bet_amounts = {}
     for bet in bets:
@@ -71,4 +71,4 @@ async def list_bets(msg: Message):
     for survivor, total_bet in total_bet_amounts.items():
         survivor_name = db.get_survivor_player_by_id_or_false(survivor).get("name")
         response += f"{total_bet:.2f} for {survivor_name}\n"
-    await msg.channel.send(response)
+    await msg.channel.send(response, reference=msg)

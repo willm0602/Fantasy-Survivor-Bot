@@ -17,7 +17,7 @@ from ..utils import parse_message
 async def lock_bets(msg: Message):
     db = DB()
     db.lock_bets()
-    await msg.channel.send("locked bets")
+    await msg.channel.send("locked bets", reference=msg)
 
 
 LOCK_BETS_COMMAND = Admin_Command(

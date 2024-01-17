@@ -25,7 +25,7 @@ async def set_sp_bal(msg: Message):
         survivor, bal = survivor_with_bal
         if db.get_survivor_by_name_or_false(survivor):
             db.update_survivor_player(survivor, bal)
-            await msg.channel.send(f"Successfully updated balance of {survivor}")
+            await msg.channel.send(f"Successfully updated balance of {survivor}", reference=msg)
         else:
             await msg.channel.send(
                 f"Error: {survivor} is not currently a player in the season"

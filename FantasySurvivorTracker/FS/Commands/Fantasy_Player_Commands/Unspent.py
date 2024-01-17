@@ -16,7 +16,7 @@ async def view_unspent(msg: Message):
     bal = db.get_unspent_balance(discord_id=user.id)
     if bal is not False:
         bal = round(bal, 4)
-        await msg.channel.send(f"You currently have {bal} unspent")
+        await msg.channel.send(f"You currently have {bal} unspent", reference=msg)
     else:
         raise Exception("Error: Unable to get your balance")
 

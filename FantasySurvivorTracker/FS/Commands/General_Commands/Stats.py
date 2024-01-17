@@ -48,7 +48,7 @@ async def stats(msg: Message):
             for s in survivors
         ]
     )
-    await msg.channel.send(result)
+    await msg.channel.send(result, reference=msg)
 
 
 STATS_COMMAND = Command(

@@ -18,7 +18,7 @@ async def view_balance(msg: Message):
     if bal is not False:
         bal = db.get_total_bal(user_id)
         bal = round(bal, 4)
-        await msg.channel.send(f"You currently have a balance of {bal}")
+        await msg.channel.send(f"You currently have a balance of {bal}", reference=msg)
     else:
         raise Exception("Error: Unable to get your balance")
 

@@ -48,7 +48,7 @@ class Command:
                 end_time = datetime.now()
                 duration = (end_time - start_time).seconds
             except Exception as e:
-                await msg.channel.send(e)
+                await msg.channel.send(e, reference=msg)
 
                 # https://stackoverflow.com/a/28836286
                 error_class = e.__class__.__name__
@@ -88,7 +88,8 @@ class Admin_Command(Command):
                 return
             else:
                 await msg.channel.send(
-                    "Error: you must be an admin to run this command"
+                    "Error: you must be an admin to run this command",
+                    reference=msg,
                 )
 
 
@@ -102,7 +103,8 @@ class User_Command(Command):
                 return
             else:
                 await msg.channel.send(
-                    "Error: you need to be a user to run this command"
+                    "Error: you need to be a user to run this command",
+                    reference=msg
                 )
 
 

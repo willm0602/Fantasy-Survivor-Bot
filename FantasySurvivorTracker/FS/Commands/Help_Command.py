@@ -21,7 +21,7 @@ async def send_help(msg: Message):
     if is_admin(msg.author):
         res += admin_command_details
     res += fp_command_details + other_commands
-    await msg.channel.send(res)
+    await msg.channel.send(res, reference=msg)
 
 
 HELP_COMMAND = Command("fs.help", send_help, None)

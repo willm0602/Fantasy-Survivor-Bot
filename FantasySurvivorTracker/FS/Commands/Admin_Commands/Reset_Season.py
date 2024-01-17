@@ -14,7 +14,7 @@ from ...DB import DB
 async def reset_season(msg: Message):
     db = DB()
     db.reset_season()
-    await msg.channel.send("Succesfully reset season")
+    await msg.channel.send("successfully reset season", reference=msg)
 
 
 RESET_SEASON_COMMAND = Admin_Command(

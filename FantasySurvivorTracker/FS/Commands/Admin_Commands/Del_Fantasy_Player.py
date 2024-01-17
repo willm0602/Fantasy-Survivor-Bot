@@ -17,7 +17,7 @@ async def del_fantasy_player(msg: Message):
     db = DB()
     db.del_fantasy_player(user)
     channel: TextChannel = msg.channel
-    await channel.send(f"Succesfully removed player {user.display_name}")
+    await channel.send(f"successfully removed player {user.display_name}", reference=msg)
 
 
 DEL_PLAYER_COMMAND = Admin_Command(

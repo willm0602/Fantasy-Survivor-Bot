@@ -17,7 +17,7 @@ async def set_season_role(msg: Message):
     mentions = re.findall("<@&.*>", msg.content)
     role_id = mentions[0][3:-1]
     db.set_setting("seasonRoleID", role_id)
-    await msg.channel.send(f"Set role to <@&{role_id}>")
+    await msg.channel.send(f"Set role to <@&{role_id}>", reference=msg)
 
 
 SET_SEASON_ROLE_COMMAND = Admin_Command(

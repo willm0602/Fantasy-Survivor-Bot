@@ -7,10 +7,10 @@ from ...DB import DB
 
 
 async def backup(msg):
-    await msg.channel.send(f"Starting backup...")
+    await msg.channel.send(f"Starting backup...", reference=msg)
     db_client = DB()
     db_client.backup()
-    await msg.channel.send(f"Succesfully backed up scores")
+    await msg.channel.send(f"successfully backed up scores", reference=msg)
 
 
 BACKUP_COMMAND = Admin_Command(

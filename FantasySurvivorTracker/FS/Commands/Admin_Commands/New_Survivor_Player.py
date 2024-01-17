@@ -22,7 +22,7 @@ async def new_survivor_player(msg: Message):
     db_client = DB()
     if not db_client.get_survivor_by_name_or_false(name):
         db_client.create_survivor_player(name)
-        await msg.channel.send(f"Succesfully created new Survivor Player {name}")
+        await msg.channel.send(f"successfully created new Survivor Player {name}", reference=msg)
     else:
         raise Exception("Error: Player Already Exists")
 

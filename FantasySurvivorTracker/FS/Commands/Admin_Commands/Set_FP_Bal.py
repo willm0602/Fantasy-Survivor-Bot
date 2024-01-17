@@ -25,7 +25,7 @@ async def set_fp_bal(msg: Message):
     user = msg.mentions[0]
     if db.get_registed_user_or_false(user):
         db.update_balance(user, balance)
-        await msg.channel.send("Successfully updated balance of " + user.display_name)
+        await msg.channel.send("Successfully updated balance of " + user.display_name, reference=msg)
     else:
         raise Exception("User doesn't exist")
 

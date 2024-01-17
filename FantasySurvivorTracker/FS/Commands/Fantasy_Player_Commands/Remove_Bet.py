@@ -19,7 +19,7 @@ async def remove_bet(msg: Message):
         raise Exception("Missing argument: needs bet id passed in")
     survivor_name = args[0]
     db.remove_bet(survivor_name, user)
-    await msg.channel.send("succesfully removed bet")
+    await msg.channel.send("successfully removed bet", reference=msg)
 
 
 REMOVE_BET_COMMAND = Bet_Command(

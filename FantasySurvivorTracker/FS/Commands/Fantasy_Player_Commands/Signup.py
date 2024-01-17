@@ -33,7 +33,7 @@ async def signup(msg: Message):
             await user.add_roles(season_role)
         if not not_playing_role:
             await user.remove_roles(not_playing_role)
-        await msg.channel.send("Succesfully signed up for the Fantasy League!")
+        await msg.channel.send("successfully signed up for the Fantasy League!", reference=msg)
     else:
         raise Exception("Error: You are already signed up!")
 

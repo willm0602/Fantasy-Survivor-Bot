@@ -17,7 +17,7 @@ async def set_not_signed_up_role(msg: Message):
     mentions = re.findall("<@&.*>", msg.content)
     role_id = mentions[0][3:-1]
     db.set_setting("notSignedUpID", role_id)
-    await msg.channel.send(f"Set role to <@&{role_id}>")
+    await msg.channel.send(f"Set role to <@&{role_id}>", reference=msg)
 
 
 SET_NOT_SIGNED_UP_ROLE = Admin_Command(

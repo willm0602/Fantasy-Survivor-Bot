@@ -32,7 +32,7 @@ async def bet(msg: Message):
 
     for survivor, amount in survivors_with_bets:
         db.create_bet(user, survivor, float(amount))
-    await msg.channel.send("Succesfully Created Bet")
+    await msg.channel.send("successfully Created Bet", reference=msg)
 
 
 BET_COMMAND = Bet_Command(

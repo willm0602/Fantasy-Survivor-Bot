@@ -15,7 +15,7 @@ async def quit(msg: Message):
     db = DB()
     if db.get_registed_user_or_false(user):
         db.del_fantasy_player(user)
-        await msg.channel.send("You've left the fantasy league :(")
+        await msg.channel.send("You've left the fantasy league :(", reference=msg)
     else:
         raise Exception("Error: You aren't signed up!")
 

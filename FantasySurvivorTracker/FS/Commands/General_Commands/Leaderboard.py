@@ -14,7 +14,7 @@ async def leaderboard(msg: Message):
     db = DB()
     fps = db.get_all_fantasy_players()
     if len(fps) == 0:
-        await msg.channel.send("Nobody signed up yet :(")
+        await msg.channel.send("Nobody signed up yet :(", reference=msg)
         return
     survivors = db.get_all_survivors()
     bets = db.get_all_bets()
@@ -41,7 +41,7 @@ async def leaderboard(msg: Message):
     res = ""
     for i, pos in enumerate(positions):
         res = res + f"{i+1}) {pos[0]}- {round(pos[1], 3)}\n"
-    await msg.channel.send(res)
+    await msg.channel.send(res, reference=msg)
 
 
 LB_COMMAND = Command("lb", leaderboard, "fs.lb- shows the leaderboard")

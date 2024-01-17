@@ -17,7 +17,7 @@ async def new_fantasy_player(msg: Message):
     db = DB()
     db.create_fantasy_player(user)
     channel: TextChannel = msg.channel
-    await channel.send(f"Succesfully created new player {user.display_name}")
+    await channel.send(f"successfully created new player {user.display_name}", reference=msg)
 
 
 NEW_FANTASY_PLAYER_COMMAND = Admin_Command(

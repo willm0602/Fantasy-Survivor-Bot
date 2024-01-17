@@ -31,7 +31,7 @@ async def split(msg: Message):
     # avoids rounding issues
     bank = db.get_unspent_balance(discord_id=user.id)
     db.create_bet(user, args[-1], bank)
-    await msg.channel.send("successfully split")
+    await msg.channel.send("successfully split", reference=msg)
 
 
 SPLIT_COMMAND = Bet_Command(

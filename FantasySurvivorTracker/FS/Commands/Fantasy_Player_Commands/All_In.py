@@ -28,7 +28,7 @@ async def all_in(msg: Message):
 
     for name in args:
         db.create_bet(user, name, bank)
-    await msg.channel.send(f"successfully went all in on {args[0]}")
+    await msg.channel.send(f"successfully went all in on {args[0]}", reference=msg)
 
 
 ALL_IN_COMMAND = Bet_Command(
