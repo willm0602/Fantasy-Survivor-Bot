@@ -72,3 +72,11 @@ async def list_bets(msg: Message):
         survivor_name = db.get_survivor_player_by_id_or_false(survivor).get("name")
         response += f"{total_bet:.2f} for {survivor_name}\n"
     await msg.channel.send(response, reference=msg)
+
+def clean_name(name: str) -> str:
+    """Cleans the name so it can be readable in discord"""
+    UNDERSCORE_LOOKALIKE = "﹍"
+    # we need to replace underscores with a readable character
+    name = name.replace("_", UNDERSCORE_LOOKALIKE)
+    name = name.title()
+    return name

@@ -199,7 +199,7 @@ class DB:
         )
         return survivors
 
-    def get_all_fantasy_players(self):
+    def get_all_fantasy_players(self) -> List[FantasyPlayer]:
         """
         returns: List[dict]
         """
