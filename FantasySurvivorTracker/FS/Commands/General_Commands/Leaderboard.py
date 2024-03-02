@@ -36,7 +36,7 @@ async def leaderboard(msg: Message):
     positions = []
     for fp in fps:
         data = balances[fp["id"]]
-        positions.append((clean_name(data["name"])), data["bal"])
+        positions.append((clean_name(data["name"]), data["bal"]))
     positions.sort(key=lambda k: k[1], reverse=True)
 
     res = ""
