@@ -282,8 +282,14 @@ class DB:
             the factor to multiply the survivor players score by
         """
         bets_table = C.TABLE_NAMES.BET
-        query = f"UPDATE {bets_table} SET amount = amount * 2"
-        self.supabase.execute(query)
+        survivor = self.get_survivor_by_name_or_false(name)
+        bets = self.get_all_bets()
+
+        for bet in bets:
+            if bet["survivorPlayer"] == survivor["id"]:
+                self.supabase.from_(bets_table).update(
+                    {"amount": bet["amount"] * factor}
+                ).eq("id", bet["id"]).execute()
 
     def delete_survivor_player(self, name: str):
         self.supabase.from_(C.TABLE_NAMES.BET).delete().neq("id", -1).execute()
