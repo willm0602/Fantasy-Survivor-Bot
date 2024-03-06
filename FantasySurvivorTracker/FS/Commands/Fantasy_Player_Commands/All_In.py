@@ -26,8 +26,7 @@ async def all_in(msg: Message):
     if bank <= 0:
         raise Exception("Error: You have no money to bet")
 
-    for name in args:
-        db.create_bet(user, name, bank)
+    db.create_bet(user, args[0], bank)
     await msg.channel.send(f"successfully went all in on {args[0]}", reference=msg)
 
 

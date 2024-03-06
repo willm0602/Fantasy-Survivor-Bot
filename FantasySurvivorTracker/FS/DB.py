@@ -284,7 +284,7 @@ class DB:
         bets_table = C.TABLE_NAMES.BET
         survivor = self.get_survivor_by_name_or_false(name)
         bets = self.get_all_bets()
-
+    
         for bet in bets:
             if bet["survivorPlayer"] == survivor["id"]:
                 self.supabase.from_(bets_table).update(

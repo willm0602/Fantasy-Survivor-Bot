@@ -24,7 +24,7 @@ async def set_sp_bal(msg: Message):
     for survivor_with_bal in new_players_with_bals:
         survivor, bal = survivor_with_bal
         if db.get_survivor_by_name_or_false(survivor):
-            db.update_survivor_player(survivor, bal)
+            db.update_survivor_player(survivor, float(bal))
             await msg.channel.send(f"Successfully updated balance of {survivor}", reference=msg)
         else:
             await msg.channel.send(
