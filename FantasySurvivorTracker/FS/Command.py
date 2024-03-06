@@ -46,7 +46,7 @@ class Command:
                 await self.action(msg)
                 was_successful = True
                 end_time = datetime.now()
-                duration = (end_time - start_time).seconds
+                duration = (end_time - start_time).microseconds / 1000000
             except Exception as e:
                 await msg.channel.send(e, reference=msg)
 
