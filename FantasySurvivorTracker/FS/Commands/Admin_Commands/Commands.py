@@ -1,3 +1,4 @@
+from FantasySurvivorTracker.FS.Commands.Admin_Commands.ManualDeduct import MANUALLY_DEDUCT_POINTS_COMMAND
 from .Backup import BACKUP_COMMAND
 from .Del_Fantasy_Player import DEL_PLAYER_COMMAND
 from .Del_Survivor_Player import DEL_SURVIVOR_COMMAND
@@ -11,6 +12,7 @@ from .Set_Season_Role import SET_SEASON_ROLE_COMMAND
 from .Set_SP_Bal import SET_SURVIVOR_BAL_COMMAND
 from .Unlock_bets import UNLOCK_BETS_COMMAND
 from .Set_Not_Signed_Up_Role import SET_NOT_SIGNED_UP_ROLE
+from .List_Settings import LIST_SETTINGS_COMMAND
 
 COMMANDS = [
     NEW_FANTASY_PLAYER_COMMAND,
@@ -26,6 +28,8 @@ COMMANDS = [
     RESET_SEASON_COMMAND,
     SET_SEASON_ROLE_COMMAND,
     SET_NOT_SIGNED_UP_ROLE,
+    LIST_SETTINGS_COMMAND,
+    MANUALLY_DEDUCT_POINTS_COMMAND
 ]
 
 COMMANDS.sort(key=lambda k: k.desc)
