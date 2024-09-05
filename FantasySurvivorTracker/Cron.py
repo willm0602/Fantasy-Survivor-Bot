@@ -10,3 +10,6 @@ PST = pytz.timezone("US/Pacific")
 @aiocron.crontab("0 17 * * 3", tz=PST)
 def autolock_bot():
     DB().set_setting("bettingLocked", "yes")
+    should_deduct_points = DB().get_setting('deductPointsWeekly') == 'yes'
+    if should_deduct_points:
+        DB().deduct_unspent_points_by_five_percent()

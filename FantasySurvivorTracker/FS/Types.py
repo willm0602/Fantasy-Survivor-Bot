@@ -45,3 +45,7 @@ class CommandRun(TypedDict):
     trigger: str
     arguments: List[str]
     traceback: str
+
+class Setting(TypedDict):
+    key: str
+    val: str

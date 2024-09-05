@@ -535,3 +535,24 @@ class DB:
 
     def log_command_to_db(self, command: "CommandRun") -> None:
         self.supabase.from_(C.TABLE_NAMES.COMMAND_RUN_TABLE).insert(command).execute()
+
+    def deduct_unspent_points_by_five_percent(self) -> None:
+        """Deducts all unspent points by users by five-percent"""
+        updated_player_info = []
+        for player in self.get_all_fantasy_players():
+            bank = player['bank'] * 0.95
+            updated_player_info.append({
+                'id': player['id'],
+                'bank': bank
+            })
+        self.supabase.from_(C.TABLE_NAMES.FANTASY_PLAYERS).upsert(updated_player_info).execute()
+
+    def get_all_settings(self) -> dict:
+        """Returns a dictionary of all the settings and their values"""
+        settings = self.supabase.from_(C.TABLE_NAMES.SETTINGS).select('*').execute().data
+        settings_dict = {}
+        for setting in settings:
+            key = setting['key']
+            val = setting['val']
+            settings_dict[key] = val
+        return settings_dict
