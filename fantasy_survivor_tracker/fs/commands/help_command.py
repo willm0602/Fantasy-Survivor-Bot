@@ -24,4 +24,4 @@ async def send_help(msg: Message):
     await msg.channel.send(res, reference=msg)
 
 
-HELP_COMMAND = Command("fs.help", send_help, None)
+HELP_COMMAND = Command("help", send_help, None)
