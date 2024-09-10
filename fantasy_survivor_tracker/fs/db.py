@@ -49,9 +49,10 @@ class DB:
                 return _user.get("id")
         return False
 
-    def get_registed_user_or_false(self):
+    def get_registed_user_or_false(self, user: User):
         """NOTE: this will be deprecated soon, should use `get_registered_user_id_or_false` instead"""
-    
+        return self.get_registered_user_id_or_false(user)
+        
     def get_registed_user_by_id_or_false(
         self, id: int
     ) -> "Literal[False] | FantasyPlayer":
