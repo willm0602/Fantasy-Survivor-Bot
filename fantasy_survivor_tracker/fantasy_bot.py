@@ -16,7 +16,10 @@ def setup_bot(token):
         if content.startswith("fs."):
             for command in COMMANDS:
                 if command.match(content):
-                    await command.run(msg)
+                    res = await command.run(msg)
+                    if res is not None:
+                        await msg.channel.send(res)
                     return
+            await msg.channel.send(f'"{content}" is not a valid command')
 
     client.run(token)
