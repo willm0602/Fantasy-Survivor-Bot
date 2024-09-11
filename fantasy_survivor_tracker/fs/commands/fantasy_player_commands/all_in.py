@@ -9,6 +9,8 @@ from discord.message import Message
 from ...command import Bet_Command
 from ...db import DB
 from ..utils import get_args
+from ...exceptions import CommandInputException
+from ...exceptions import ModelInstanceDoesNotExist
 
 
 async def all_in(msg: Message):
@@ -17,14 +19,14 @@ async def all_in(msg: Message):
     user_id = db.get_registed_user_or_false(user)
     args = get_args(msg)
     if len(args) == 0:
-        raise Exception("no arguments provided")
+        raise CommandInputException("no arguments provided")
     survivor = db.get_survivor_by_name_or_false(args[0])
     if survivor is False:
-        raise Exception(f"{args[0]} is not a survivor")
+        raise ModelInstanceDoesNotExist(f"{args[0]} is not a survivor")
 
     bank = db.get_unspent_balance(user_id)
     if bank <= 0:
-        raise Exception("Error: You have no money to bet")
+        raise CommandInputException("Error: You have no money to bet")
 
     db.create_bet(user, args[0], bank)
     await msg.channel.send(f"successfully went all in on {args[0]}", reference=msg)

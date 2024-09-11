@@ -9,6 +9,8 @@ from discord.message import Message
 from ...command import Bet_Command
 from ...db import DB
 from ..utils import get_args, pairwise
+from ...exceptions import CommandInvalidAccessException
+from ...exceptions import ModelInstanceDoesNotExist
 
 
 async def bet(msg: Message):
@@ -16,7 +18,7 @@ async def bet(msg: Message):
     db = DB()
     args = get_args(msg)
     if len(args) < 2:
-        raise Exception("Error: Not Enough Args Specified")
+        raise CommandInvalidAccessException("Error: Not Enough Args Specified")
 
     survivors_with_bets = pairwise(args)
 
@@ -24,7 +26,7 @@ async def bet(msg: Message):
 
     for survivor in survivors:
         if not db.get_survivor_by_name_or_false(survivor):
-            raise Exception(f"Error: {survivor} is not a survivor")
+            raise ModelInstanceDoesNotExist(f"Error: {survivor} is not a survivor")
 
     for survivor, amount in survivors_with_bets:
         db.create_bet(user, survivor, float(amount))

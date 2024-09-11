@@ -18,8 +18,8 @@ def setup_bot(token):
                 if command.match(content):
                     res = await command.run(msg)
                     if res is not None:
-                        await msg.channel.send(res)
+                        await msg.channel.send(res, reference=msg)
                     return
-            await msg.channel.send(f'"{content}" is not a valid command')
+            await msg.channel.send(f'"{content}" is not a valid command', reference=msg)
 
     client.run(token)

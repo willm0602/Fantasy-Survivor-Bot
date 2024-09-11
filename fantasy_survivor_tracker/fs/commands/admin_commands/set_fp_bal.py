@@ -11,6 +11,8 @@ from discord.message import Message
 from ...command import Admin_Command
 from ...db import DB
 from ..utils import parse_message
+from ...exceptions import CommandInputException
+from ...exceptions import ModelInstanceDoesNotExist
 
 
 async def set_fp_bal(msg: Message):
@@ -18,7 +20,7 @@ async def set_fp_bal(msg: Message):
     data = parse_message(msg)
     args = data.get("args")
     if len(args) != 2:
-        raise Exception("Not enough arguments specified")
+        raise CommandInputException("Not enough arguments specified")
     balance = float(args[1])
     user: Member
     user = msg.mentions[0]
@@ -28,7 +30,7 @@ async def set_fp_bal(msg: Message):
             "Successfully updated balance of " + user.display_name, reference=msg
         )
     else:
-        raise Exception("User doesn't exist")
+        raise ModelInstanceDoesNotExist("User doesn't exist")
 
 
 SET_FP_BAL_COMMAND = Admin_Command(
