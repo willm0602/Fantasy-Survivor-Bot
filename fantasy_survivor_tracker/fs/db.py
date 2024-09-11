@@ -28,7 +28,7 @@ class DB:
 
     # !helper commands
 
-    def get_registed_user_id_or_false(self, user: User):
+    def get_registered_user_id_or_false(self, user: User):
         """
         Check's if there is a fantasy player cooresponding to the discord user
 
@@ -233,7 +233,7 @@ class DB:
 
         @returns None
         """
-        player_id = self.get_registed_user_id_or_false(user)
+        player_id = self.get_registered_user_id_or_false(user)
         self.supabase.from_(C.TABLE_NAMES.BET).delete().match(
             {"fantasyPlayer": player_id}
         ).execute()
@@ -391,7 +391,7 @@ class DB:
         print("CREATING BET", user, survivor, bet)
         if self.is_locked():
             raise Exception("Error: Betting is locked")
-        fp_id = self.get_registed_user_id_or_false(user)
+        fp_id = self.get_registered_user_id_or_false(user)
         if not fp_id:
             raise Exception("Error: you must be registered to place bets")
         prev_bal = self.get_unspent_balance(fp_id)
@@ -438,7 +438,7 @@ class DB:
         )
 
         survivor_id = self.get_survivor_by_name_or_false(survivor_name).get("id")
-        user_id = self.get_registed_user_id_or_false(user)
+        user_id = self.get_registered_user_id_or_false(user)
 
         if not survivor_id:
             raise Exception(f"{survivor_name} is not a survivor")
@@ -469,7 +469,7 @@ class DB:
         """
         if self.is_locked():
             raise Exception("Betting is locked")
-        user_id = self.get_registed_user_id_or_false(user)
+        user_id = self.get_registered_user_id_or_false(user)
         if user_id is False:
             raise Exception("Error: No user found for this user")
         total_bal = self.get_total_bal(discord_id=user.id)

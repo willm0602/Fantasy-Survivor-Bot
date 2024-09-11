@@ -97,7 +97,7 @@ class User_Command(Command):
         user = msg.author
         if not user.bot:
             db = DB()
-            if db.get_registed_user_id_or_false(user):
+            if db.get_registered_user_id_or_false(user):
                 await super().run(msg)
                 return
             else:
@@ -109,5 +109,5 @@ class User_Command(Command):
 class Bet_Command(User_Command):
     async def run(self, msg: Message):
         await super().run(msg)
-        if DB().get_registed_user_id_or_false(msg.author):
+        if DB().get_registered_user_id_or_false(msg.author):
             await list_bets(msg)
