@@ -3,6 +3,7 @@ from typing import List
 from discord.message import Message
 from discord.user import User
 
+from ..exceptions import CommandInputException, CommandInvalidAccessException
 from ..db import DB
 
 
@@ -55,8 +56,8 @@ async def list_bets(msg: Message):
     id = db.get_registed_user_or_false(user)
     if id is False:
         if user == msg.author:
-            raise Exception("Error: You are not a user")
-        raise Exception("Error: this person is not a user")
+            raise CommandInvalidAccessException("Error: You are not a user")
+        raise CommandInputException("Error: this person is not a user")
     bets = db.get_all_bets_for_user(id)
     if len(bets) == 0:
         await msg.channel.send("You have no bets placed", reference=msg)

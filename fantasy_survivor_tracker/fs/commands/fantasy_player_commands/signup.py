@@ -8,6 +8,7 @@ from discord.message import Message
 
 from ...command import Command
 from ...db import DB
+from ...exceptions import CommandInvalidAccessException
 
 
 class MockRole:
@@ -36,7 +37,7 @@ async def signup(msg: Message):
             "successfully signed up for the Fantasy League!", reference=msg
         )
     else:
-        raise Exception("Error: You are already signed up!")
+        raise CommandInvalidAccessException("Error: You are already signed up!")
 
 
 SIGNUP_COMMAND = Command("signup", signup, "fs.signup- signup for the fantasy league")

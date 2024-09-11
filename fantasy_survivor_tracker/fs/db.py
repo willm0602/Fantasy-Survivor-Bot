@@ -9,7 +9,9 @@ import supabase
 from discord.user import User
 
 from . import constants as C
+from .exceptions import CommandInputException, CommandInvalidAccessException, InvalidBetException, ModelInstanceDoesNotExist
 from ._types import BackupRow, Bet2, CommandRun, FantasyPlayer, Survivor
+
 
 
 class DB:
@@ -369,7 +371,6 @@ class DB:
         else:
             query: List[FantasyPlayer] = sync_builder.match({"id": id}).execute().data
         if len(query):
-            print("THERE IS A QUERY RESULT", query[0])
             return query[0].get("bank", 0)
         return None
 
@@ -390,19 +391,18 @@ class DB:
         """
         print("CREATING BET", user, survivor, bet)
         if self.is_locked():
-            raise Exception("Error: Betting is locked")
+            raise CommandInvalidAccessException("Error: Betting is locked")
         fp_id = self.get_registered_user_id_or_false(user)
         if not fp_id:
-            raise Exception("Error: you must be registered to place bets")
+            raise CommandInvalidAccessException("Error: you must be registered to place bets")
         prev_bal = self.get_unspent_balance(fp_id)
         survivor_name = survivor
         survivor = self.get_survivor_by_name_or_false(survivor)
         if not survivor:
-            raise Exception(f"Survivor {survivor_name} does not exist")
+            raise CommandInputException(f"Survivor {survivor_name} does not exist")
         survivor_id = survivor.get("id")
         if prev_bal <= bet:
             bet = prev_bal
-        print("\n\nAMOUNT", bet)
         self.supabase.table(C.TABLE_NAMES.BET).insert(
             {
                 "fantasyPlayer": fp_id,
@@ -427,7 +427,7 @@ class DB:
         returns: None
         """
         if self.is_locked():
-            raise Exception("Betting is locked")
+            raise CommandInvalidAccessException("Betting is locked")
 
         bets: Bet2 = (
             self.supabase.from_(C.TABLE_NAMES.BET)
@@ -441,7 +441,7 @@ class DB:
         user_id = self.get_registered_user_id_or_false(user)
 
         if not survivor_id:
-            raise Exception(f"{survivor_name} is not a survivor")
+            raise CommandInputException(f"{survivor_name} is not a survivor")
 
         for bet in bets:
             if (
@@ -453,7 +453,7 @@ class DB:
                 self.update_balance(user, new_bal)
                 betExists = True
         if not betExists:
-            raise Exception("Error: bet does not exist")
+            raise InvalidBetException("Error: bet does not exist")
         self.supabase.from_(C.TABLE_NAMES.BET).delete().match(
             {"fantasyPlayer": user_id, "survivorPlayer": survivor_id}
         ).execute()
@@ -468,10 +468,10 @@ class DB:
         returns: None
         """
         if self.is_locked():
-            raise Exception("Betting is locked")
+            raise CommandInvalidAccessException("Betting is locked")
         user_id = self.get_registered_user_id_or_false(user)
         if user_id is False:
-            raise Exception("Error: No user found for this user")
+            raise ModelInstanceDoesNotExist("Error: No user found for this user")
         total_bal = self.get_total_bal(discord_id=user.id)
         self.supabase.from_(C.TABLE_NAMES.BET).delete().eq(
             "discord_id", user.id
@@ -483,7 +483,7 @@ class DB:
         Get the total balance for a user
         """
         if id is None and discord_id is None:
-            raise Exception("Error: must provide id or discord_id")
+            raise CommandInputException("Error: must provide id or discord_id")
 
         if discord_id is not None:
             bets = self.get_all_bets_for_user_by_discord_id(discord_id)

@@ -14,7 +14,7 @@ async def list_settings(msg: Message):
     res = ""
     for key, val in db.get_all_settings().items():
         res = res + f"{key}: {val}\n"
-    await msg.channel.send(res)
+    await msg.channel.send(res, refernce=msg)
 
 
 LIST_SETTINGS_COMMAND = Admin_Command(

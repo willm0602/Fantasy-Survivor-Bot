@@ -26,25 +26,21 @@ async def read_error_log(msg: Message):
         try:
             error_id = int(args[0])
         except ValueError:
-            await msg.channel.send("Error id must be an integer")
+            await msg.channel.send("Error id must be an integer", reference=msg)
             return
 
     if error_id is not None:
         error: "CommandRun" = DB().get_error_by_id(error_id)
         if error is None:
-            await msg.channel.send(f"{error_id} is not a valid error id")
+            await msg.channel.send(f"{error_id} is not a valid error id", reference=msg)
         else:
-            await msg.channel.send(error["traceback"])
+            await msg.channel.send(error["traceback"], reference=msg)
     else:
         error_items = []
         for error in DB().get_all_errors()[:10]:
             error_items.append(format_err(error))
-            print(error, "\n", format_err(error))
-            print("\n\n")
-        print("\n\n", error_items, "\n\n")
-        print(DB().get_all_errors()[:10])
         res = "\n".join(error_items)
-        await msg.channel.send(res)
+        await msg.channel.send(res, reference=msg)
 
 
 READ_ERROR_LOG = Admin_Command(

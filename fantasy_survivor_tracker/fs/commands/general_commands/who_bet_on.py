@@ -12,6 +12,8 @@ from ..._types import FantasyPlayer
 from ...command import Command
 from ...db import DB
 from ..utils import get_args
+from ...exceptions import CommandInputException
+from ...exceptions import ModelInstanceDoesNotExist
 
 
 async def who_bet(msg: Message):
@@ -19,13 +21,13 @@ async def who_bet(msg: Message):
     args = get_args(msg)
     if len(args) == 0:
         await msg.channel.send("No arguments provided", reference=msg)
-        raise ValueError
+        raise CommandInputException
     survivor_name = args[0]
 
     survivor = db.get_survivor_by_name_or_false(survivor_name)
     if survivor is False:
         await msg.channel.send(f"{survivor_name} is not a survivor", reference=msg)
-        raise ValueError
+        raise ModelInstanceDoesNotExist
 
     all_bets = db.get_all_bets()
     bets: Dict[str, float] = {}

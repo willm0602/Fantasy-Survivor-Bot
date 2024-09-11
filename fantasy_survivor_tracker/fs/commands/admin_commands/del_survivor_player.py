@@ -9,13 +9,14 @@ from discord.message import Message
 from ...command import Admin_Command
 from ...db import DB
 from ..utils import parse_message
+from ...exceptions import CommandInputException
 
 
 async def del_survivor(msg: Message):
     data = parse_message(msg)
     args = data.get("args")
     if len(args) < 1:
-        raise Exception("Error: Survivor player name must be specified")
+        raise CommandInputException("Error: Survivor player name must be specified")
     name = args[0]
     db_client = DB()
     if db_client.get_survivor_by_name_or_false(name):
@@ -24,7 +25,7 @@ async def del_survivor(msg: Message):
             f"successfully deleted Survivor Player {name}", reference=msg
         )
     else:
-        raise Exception("Error: Player Doesn't Exists")
+        raise CommandInputException("Error: Player Doesn't Exists")
 
 
 DEL_SURVIVOR_COMMAND = Admin_Command(

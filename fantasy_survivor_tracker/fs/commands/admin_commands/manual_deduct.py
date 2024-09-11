@@ -12,7 +12,7 @@ from ...db import DB
 async def manually_deduct(msg: Message):
     DB().backup()
     DB().deduct_unspent_points_by_five_percent()
-    await msg.channel.send("Deduced all points by 5%")
+    await msg.channel.send("Deduced all points by 5%", reference=msg)
 
 
 MANUALLY_DEDUCT_POINTS_COMMAND = Admin_Command(

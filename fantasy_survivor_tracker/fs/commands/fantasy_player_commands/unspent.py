@@ -8,6 +8,7 @@ from discord.message import Message
 
 from ...command import User_Command
 from ...db import DB
+from ...exceptions import CommandInvalidAccessException
 
 
 async def view_unspent(msg: Message):
@@ -18,7 +19,7 @@ async def view_unspent(msg: Message):
         bal = round(bal, 4)
         await msg.channel.send(f"You currently have {bal} unspent", reference=msg)
     else:
-        raise Exception("Error: Unable to get your balance")
+        raise CommandInvalidAccessException("Error: Unable to get your balance")
 
 
 VIEW_UNSPENT_COMMAND = User_Command(

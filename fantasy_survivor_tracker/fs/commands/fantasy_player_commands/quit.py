@@ -8,7 +8,7 @@ from discord.message import Message
 
 from ...command import User_Command
 from ...db import DB
-
+from ...exceptions import CommandInvalidAccessException
 
 async def quit(msg: Message):
     user = msg.author
@@ -17,7 +17,7 @@ async def quit(msg: Message):
         db.del_fantasy_player(user)
         await msg.channel.send("You've left the fantasy league :(", reference=msg)
     else:
-        raise Exception("Error: You aren't signed up!")
+        raise CommandInvalidAccessException("Error: You aren't signed up!")
 
 
 QUIT_COMMAND = User_Command("quit", quit, "fs.quit- leave the fantasy league")

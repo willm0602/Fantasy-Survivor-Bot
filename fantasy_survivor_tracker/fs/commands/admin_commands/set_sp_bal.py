@@ -8,7 +8,7 @@ from discord.message import Message
 from ...command import Admin_Command
 from ...db import DB
 from ..utils import pairwise, parse_message
-
+from ...exceptions import CommandInputException
 
 async def set_sp_bal(msg: Message):
     db = DB()
@@ -16,7 +16,7 @@ async def set_sp_bal(msg: Message):
     args = data.get("args")
 
     if len(args) < 2:
-        raise Exception("Not enough arguments specified")
+        raise CommandInputException("Not enough arguments specified")
 
     new_players_with_bals = pairwise(args)
     for survivor_with_bal in new_players_with_bals:
@@ -28,7 +28,8 @@ async def set_sp_bal(msg: Message):
             )
         else:
             await msg.channel.send(
-                f"Error: {survivor} is not currently a player in the season"
+                f"Error: {survivor} is not currently a player in the season",
+                reference=msg
             )
 
 
