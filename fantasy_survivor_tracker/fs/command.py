@@ -11,6 +11,7 @@ from .commands.utils import get_args, is_admin, list_bets
 from .db import DB
 from .exceptions import ModelInstanceDoesNotExist
 from .exceptions import CommandInputException
+from .exceptions import InvalidBetException
 
 DEFAULT_DESCRIPTION = "A Fantasy Survivor Command"
 
@@ -48,7 +49,7 @@ class Command:
                 was_successful = True
                 end_time = datetime.now()
                 duration = (end_time - start_time).microseconds / 1000000
-            except (CommandInputException, ModelInstanceDoesNotExist) as e:
+            except (CommandInputException, InvalidBetException, ModelInstanceDoesNotExist) as e:
                 await msg.channel.send(e, reference=msg)
             except Exception as e:
                 await msg.channel.send('Something went wrong, please ping Will', reference=msg)

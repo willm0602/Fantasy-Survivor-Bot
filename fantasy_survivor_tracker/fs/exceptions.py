@@ -2,7 +2,7 @@
 class CommandInputException(Exception):
     pass
 
-class InvalidBetException(CommandInputException):
+class InvalidBetException(Exception):
     pass
 
 class ModelInstanceDoesNotExist(Exception):
