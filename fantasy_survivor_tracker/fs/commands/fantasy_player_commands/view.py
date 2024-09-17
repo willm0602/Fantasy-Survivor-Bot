@@ -6,7 +6,7 @@ fs.view_bal
 
 from discord.message import Message
 
-from ...command import User_Command
+from ...command import UserCommand
 from ...db import DB
 from ...exceptions import CommandInvalidAccessException
 
@@ -24,6 +24,6 @@ async def view_balance(msg: Message):
         raise CommandInvalidAccessException("Error: Unable to get your balance")
 
 
-VIEW_BALANCE_COMMAND = User_Command(
+VIEW_BALANCE_COMMAND = UserCommand(
     "view_bal", view_balance, "fs.view_bal - lets a user view their balance"
 )

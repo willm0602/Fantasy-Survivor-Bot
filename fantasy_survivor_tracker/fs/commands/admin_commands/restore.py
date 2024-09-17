@@ -1,7 +1,7 @@
 """Restores backed up scores
 fs.restore
 """
-from ...command import Admin_Command
+from ...command import AdminCommand
 from ...db import DB
 
 
@@ -11,7 +11,7 @@ async def restore(msg):
     await msg.channel.send("successfully restored scores", reference=msg)
 
 
-RESTORE_COMMAND = Admin_Command(
+RESTORE_COMMAND = AdminCommand(
     "restore",
     restore,
     "fs.restore restores scores",

@@ -5,7 +5,7 @@ fs.list_settings
 
 from discord.message import Message
 
-from ...command import Admin_Command
+from ...command import AdminCommand
 from ...db import DB
 
 
@@ -17,7 +17,7 @@ async def list_settings(msg: Message):
     await msg.channel.send(res, refernce=msg)
 
 
-LIST_SETTINGS_COMMAND = Admin_Command(
+LIST_SETTINGS_COMMAND = AdminCommand(
     "list_settings",
     list_settings,
     "fs.list_settings - list all of the settings placed",

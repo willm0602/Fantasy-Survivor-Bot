@@ -6,7 +6,7 @@ fs.bet [survivor name] [balance]
 
 from discord.message import Message
 
-from ...command import Bet_Command
+from ...command import BetCommand
 from ...db import DB
 from ..utils import get_args, pairwise
 from ...exceptions import CommandInvalidAccessException
@@ -33,6 +33,6 @@ async def bet(msg: Message):
     await msg.channel.send("successfully Created Bet", reference=msg)
 
 
-BET_COMMAND = Bet_Command(
+BET_COMMAND = BetCommand(
     "bet", bet, "fs.bet [survivor_name] [balance]- creates a bet for that survivor"
 )

@@ -8,7 +8,7 @@ from discord.channel import TextChannel
 from discord.member import Member
 from discord.message import Message
 
-from ...command import Admin_Command
+from ...command import AdminCommand
 from ...db import DB
 
 
@@ -22,7 +22,7 @@ async def new_fantasy_player(msg: Message):
     )
 
 
-NEW_FANTASY_PLAYER_COMMAND = Admin_Command(
+NEW_FANTASY_PLAYER_COMMAND = AdminCommand(
     "new_fantasy",
     new_fantasy_player,
     "fs.new_fantasy [@player] creates a new fantasy player",

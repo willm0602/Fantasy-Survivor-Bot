@@ -6,7 +6,7 @@ fs.new_survivor [@name]
 
 from discord.message import Message
 
-from ...command import Admin_Command
+from ...command import AdminCommand
 from ...db import DB
 from ..utils import parse_message
 from ...exceptions import CommandInputException
@@ -27,7 +27,7 @@ async def new_survivor_player(msg: Message):
         raise CommandInputException("Error: Player Already Exists")
 
 
-NEW_SURVIVOR_PLAYER_COMMAND = Admin_Command(
+NEW_SURVIVOR_PLAYER_COMMAND = AdminCommand(
     "new_survivor",
     new_survivor_player,
     "fs.new_survivor [survivor] creates a new survivor player",

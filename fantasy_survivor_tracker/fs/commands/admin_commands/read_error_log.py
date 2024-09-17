@@ -4,7 +4,7 @@
 from discord.message import Message
 
 from ..._types import CommandRun
-from ...command import Admin_Command
+from ...command import AdminCommand
 from ...db import DB
 from ..utils import parse_message
 
@@ -43,7 +43,7 @@ async def read_error_log(msg: Message):
         await msg.channel.send(res, reference=msg)
 
 
-READ_ERROR_LOG = Admin_Command(
+READ_ERROR_LOG = AdminCommand(
     "read_error",
     read_error_log,
     "fs.read_error [?id] read information about an error",

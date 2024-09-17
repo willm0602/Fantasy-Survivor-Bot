@@ -8,7 +8,7 @@ fs.set_fp_bal [@user] [bal]
 from discord.member import Member
 from discord.message import Message
 
-from ...command import Admin_Command
+from ...command import AdminCommand
 from ...db import DB
 from ..utils import parse_message
 from ...exceptions import CommandInputException
@@ -33,7 +33,7 @@ async def set_fp_bal(msg: Message):
         raise ModelInstanceDoesNotExist("User doesn't exist")
 
 
-SET_FP_BAL_COMMAND = Admin_Command(
+SET_FP_BAL_COMMAND = AdminCommand(
     "set_fp_bal",
     set_fp_bal,
     "fs.set_fp_bal [@user] [bal] updates a users balance",

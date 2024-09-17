@@ -83,7 +83,7 @@ class Command:
             DB().log_command_to_db(command_run)
 
 
-class Admin_Command(Command):
+class AdminCommand(Command):
     async def run(self, msg: Message):
         if not msg.author.bot:
             user = msg.author
@@ -97,7 +97,7 @@ class Admin_Command(Command):
                 )
 
 
-class User_Command(Command):
+class UserCommand(Command):
     async def run(self, msg: Message):
         user = msg.author
         if not user.bot:
@@ -111,7 +111,7 @@ class User_Command(Command):
                 )
 
 
-class Bet_Command(User_Command):
+class BetCommand(UserCommand):
     async def run(self, msg: Message):
         await super().run(msg)
         if DB().get_registered_user_id_or_false(msg.author):

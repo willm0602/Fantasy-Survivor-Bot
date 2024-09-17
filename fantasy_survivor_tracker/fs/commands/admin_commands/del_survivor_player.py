@@ -6,7 +6,7 @@ fs.del_survivor [@user]
 
 from discord.message import Message
 
-from ...command import Admin_Command
+from ...command import AdminCommand
 from ...db import DB
 from ..utils import parse_message
 from ...exceptions import CommandInputException
@@ -28,7 +28,7 @@ async def del_survivor(msg: Message):
         raise CommandInputException("Error: Player Doesn't Exists")
 
 
-DEL_SURVIVOR_COMMAND = Admin_Command(
+DEL_SURVIVOR_COMMAND = AdminCommand(
     "del_survivor",
     del_survivor,
     "fs.del_survivor [survivor player name] deletes a specified survivor player",

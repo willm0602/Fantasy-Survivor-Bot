@@ -5,7 +5,7 @@ fs.set_survivor_bal [@survivor] [bal]
 """
 from discord.message import Message
 
-from ...command import Admin_Command
+from ...command import AdminCommand
 from ...db import DB
 from ..utils import pairwise, parse_message
 from ...exceptions import CommandInputException
@@ -33,7 +33,7 @@ async def set_sp_bal(msg: Message):
             )
 
 
-SET_SURVIVOR_BAL_COMMAND = Admin_Command(
+SET_SURVIVOR_BAL_COMMAND = AdminCommand(
     "set_survivor_bal",
     set_sp_bal,
     "fs.set_survivor_bal [survivor] [bal] updates a users balance",

@@ -6,7 +6,7 @@ fs.quit
 
 from discord.message import Message
 
-from ...command import User_Command
+from ...command import UserCommand
 from ...db import DB
 from ...exceptions import CommandInvalidAccessException
 
@@ -20,4 +20,4 @@ async def quit(msg: Message):
         raise CommandInvalidAccessException("Error: You aren't signed up!")
 
 
-QUIT_COMMAND = User_Command("quit", quit, "fs.quit- leave the fantasy league")
+QUIT_COMMAND = UserCommand("quit", quit, "fs.quit- leave the fantasy league")

@@ -8,7 +8,7 @@ from discord.channel import TextChannel
 from discord.member import Member
 from discord.message import Message
 
-from ...command import Admin_Command
+from ...command import AdminCommand
 from ...db import DB
 
 
@@ -22,7 +22,7 @@ async def del_fantasy_player(msg: Message):
     )
 
 
-DEL_PLAYER_COMMAND = Admin_Command(
+DEL_PLAYER_COMMAND = AdminCommand(
     "del_fantasy",
     del_fantasy_player,
     "fs.del_fantasy [@player] deletes a specified fantasy player",

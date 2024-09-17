@@ -6,7 +6,7 @@ fs.unspent
 
 from discord.message import Message
 
-from ...command import User_Command
+from ...command import UserCommand
 from ...db import DB
 from ...exceptions import CommandInvalidAccessException
 
@@ -22,6 +22,6 @@ async def view_unspent(msg: Message):
         raise CommandInvalidAccessException("Error: Unable to get your balance")
 
 
-VIEW_UNSPENT_COMMAND = User_Command(
+VIEW_UNSPENT_COMMAND = UserCommand(
     "unspent", view_unspent, "fs.unspent - lets a user view their unspent points"
 )

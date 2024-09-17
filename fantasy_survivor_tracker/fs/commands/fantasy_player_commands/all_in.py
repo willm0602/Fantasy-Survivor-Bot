@@ -6,7 +6,7 @@ fs.all_in [survivor name]
 
 from discord.message import Message
 
-from ...command import Bet_Command
+from ...command import BetCommand
 from ...db import DB
 from ..utils import get_args
 from ...exceptions import CommandInputException
@@ -32,6 +32,6 @@ async def all_in(msg: Message):
     await msg.channel.send(f"successfully went all in on {args[0]}", reference=msg)
 
 
-ALL_IN_COMMAND = Bet_Command(
+ALL_IN_COMMAND = BetCommand(
     "all_in", all_in, "fs.all_in [survivor_names] - Lets a user go all in with a bet"
 )

@@ -6,7 +6,7 @@ fs.remove_bet [bet id]
 
 from discord.message import Message
 
-from ...command import Bet_Command
+from ...command import BetCommand
 from ...db import DB
 from ..utils import get_args
 from ...exceptions import CommandInputException
@@ -23,7 +23,7 @@ async def remove_bet(msg: Message):
     await msg.channel.send("successfully removed bet", reference=msg)
 
 
-REMOVE_BET_COMMAND = Bet_Command(
+REMOVE_BET_COMMAND = BetCommand(
     "remove_bet",
     remove_bet,
     "fs.remove_bet [survivor name]- removes all bets you made for the given survivor",

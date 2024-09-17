@@ -2,7 +2,7 @@
 
 fs.backup
 """
-from ...command import Admin_Command
+from ...command import AdminCommand
 from ...db import DB
 
 
@@ -13,7 +13,7 @@ async def backup(msg):
     await msg.channel.send("successfully backed up scores", reference=msg)
 
 
-BACKUP_COMMAND = Admin_Command(
+BACKUP_COMMAND = AdminCommand(
     "backup",
     backup,
     "fs.backup backs up scores",
