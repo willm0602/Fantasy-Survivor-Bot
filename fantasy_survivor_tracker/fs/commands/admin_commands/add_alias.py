@@ -10,6 +10,7 @@ from ...command import AdminCommand
 from ...db import DB
 from ..utils import get_args
 from ...exceptions import CommandInputException
+from ...exceptions import ModelInstanceDoesNotExist
 
 async def add_alias(msg: Message):
     args = get_args(msg)
@@ -19,8 +20,12 @@ async def add_alias(msg: Message):
     (survivor_name, alias) = args
 
     db = DB()
-    db.add_alias(survivor_name, alias)
+    try:
+        db.add_alias(survivor_name, alias)
+    except ModelInstanceDoesNotExist:
+        return f'No Survivor with name {survivor_name} exists'
 
+    return 'Successfully added alias'
 
 ADD_ALIAS_COMMAND = AdminCommand(
     "add_alias",
