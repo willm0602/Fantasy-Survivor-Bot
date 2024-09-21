@@ -23,9 +23,9 @@ async def add_alias(msg: Message):
     try:
         db.add_alias(survivor_name, alias)
     except ModelInstanceDoesNotExist:
-        return f'No Survivor with name {survivor_name} exists'
+        await msg.channel.send(f'No Survivor with name {survivor_name} exists')
 
-    return 'Successfully added alias'
+    await msg.channel.send(f'Added alias for {alias}')
 
 ADD_ALIAS_COMMAND = AdminCommand(
     "add_alias",

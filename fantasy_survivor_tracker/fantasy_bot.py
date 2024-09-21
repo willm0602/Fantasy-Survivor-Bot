@@ -2,7 +2,6 @@ import discord
 
 from .fs import COMMANDS
 
-
 def setup_bot(token):
     client = discord.Client(intents=discord.Intents.all())
 
