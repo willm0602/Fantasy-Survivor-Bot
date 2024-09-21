@@ -45,10 +45,11 @@ class Command:
         error_msg = ""
         if not msg.author.bot:
             try:
-                await self.action(msg)
+                res = await self.action(msg)
                 was_successful = True
                 end_time = datetime.now()
                 duration = (end_time - start_time).microseconds / 1000000
+                return res
             except (CommandInputException, InvalidBetException, ModelInstanceDoesNotExist) as e:
                 await msg.channel.send(e, reference=msg)
             except Exception as e:

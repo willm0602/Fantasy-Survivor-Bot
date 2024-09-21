@@ -592,7 +592,7 @@ class DB:
 
         self.supabase.from_(C.TABLE_NAMES.SURVIVOR_ALIAS).insert(
             {"survivor_id": survivor["id"], "alias": alias}
-        )
+        ).execute()
 
     def get_all_aliases(self) -> List[SurvivorAlias]:
         return (
