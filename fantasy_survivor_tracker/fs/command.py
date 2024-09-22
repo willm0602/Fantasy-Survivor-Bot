@@ -36,6 +36,7 @@ class Command:
         self.desc = desc
 
     def match(self, msg: str):
+        msg = msg.lower()
         if not msg.startswith("fs."):
             return False
         return msg[len("fs.") :].startswith(self.trigger)
