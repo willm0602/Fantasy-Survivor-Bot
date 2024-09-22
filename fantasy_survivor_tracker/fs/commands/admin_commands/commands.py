@@ -14,6 +14,7 @@ from .set_not_signed_up_role import SET_NOT_SIGNED_UP_ROLE
 from .set_season_role import SET_SEASON_ROLE_COMMAND
 from .set_sp_bal import SET_SURVIVOR_BAL_COMMAND
 from .unlock_bets import UNLOCK_BETS_COMMAND
+from .add_alias import ADD_ALIAS_COMMAND
 
 COMMANDS = [
     NEW_FANTASY_PLAYER_COMMAND,
@@ -32,6 +33,7 @@ COMMANDS = [
     LIST_SETTINGS_COMMAND,
     MANUALLY_DEDUCT_POINTS_COMMAND,
     READ_ERROR_LOG,
+    ADD_ALIAS_COMMAND
 ]
 
 COMMANDS.sort(key=lambda k: k.desc)

@@ -5,6 +5,7 @@ class TABLE_NAMES:
     SETTINGS = "Settings"
     BACKUP = "BackupData"
     COMMAND_RUN_TABLE = "CommandRun"
+    SURVIVOR_ALIAS = 'SurvivorAlias'
 
 
 DEFAULT_BANK = 1000

@@ -9,9 +9,13 @@ import supabase
 from discord.user import User
 
 from . import constants as C
-from .exceptions import CommandInputException, CommandInvalidAccessException, InvalidBetException, ModelInstanceDoesNotExist
-from ._types import BackupRow, Bet2, CommandRun, FantasyPlayer, Survivor
-
+from .exceptions import (
+    CommandInputException,
+    CommandInvalidAccessException,
+    InvalidBetException,
+    ModelInstanceDoesNotExist,
+)
+from ._types import BackupRow, Bet2, CommandRun, FantasyPlayer, Survivor, SurvivorAlias
 
 
 class DB:
@@ -54,7 +58,7 @@ class DB:
     def get_registed_user_or_false(self, user: User):
         """NOTE: this will be deprecated soon, should use `get_registered_user_id_or_false` instead"""
         return self.get_registered_user_id_or_false(user)
-        
+
     def get_registed_user_by_id_or_false(
         self, id: int
     ) -> "Literal[False] | FantasyPlayer":
@@ -88,15 +92,20 @@ class DB:
             balance: float
                 the score a fantasy player currently has
         """
-        query = (
+        queryset = (
             self.supabase.from_(C.TABLE_NAMES.SURVIVOR_PLAYERS)
             .select("*")
             .ilike("name", name)
             .execute()
             .data
         )
-        if len(query):
-            return query[0]
+        if len(queryset):
+            return queryset[0]
+
+        aliases = self.get_all_aliases()
+        for alias in aliases:
+            if alias["alias"] == name:
+                return self.get_survivor_player_by_id_or_false(alias["survivor_id"])
         return False
 
     def get_survivor_player_by_id_or_false(self, id):
@@ -107,7 +116,7 @@ class DB:
             The name being checked to see if there is a survivor player
             with that id
 
-        @returns false | dict:
+        @returns false | SurvivorPlayer:
             id: int
                 id of user in db
             created_at: date
@@ -394,7 +403,9 @@ class DB:
             raise CommandInvalidAccessException("Error: Betting is locked")
         fp_id = self.get_registered_user_id_or_false(user)
         if not fp_id:
-            raise CommandInvalidAccessException("Error: you must be registered to place bets")
+            raise CommandInvalidAccessException(
+                "Error: you must be registered to place bets"
+            )
         prev_bal = self.get_unspent_balance(fp_id)
         survivor_name = survivor
         survivor = self.get_survivor_by_name_or_false(survivor)
@@ -571,3 +582,19 @@ class DB:
             if error["id"] == id:
                 return error
         return None
+
+    def add_alias(self, survivor_name: str, alias: str) -> None:
+        """Adds an alias for the survivor to be able to be used"""
+
+        survivor = self.get_survivor_by_name_or_false(survivor_name)
+        if not survivor:
+            raise ModelInstanceDoesNotExist
+
+        self.supabase.from_(C.TABLE_NAMES.SURVIVOR_ALIAS).insert(
+            {"survivor_id": survivor["id"], "alias": alias}
+        ).execute()
+
+    def get_all_aliases(self) -> List[SurvivorAlias]:
+        return (
+            self.supabase.from_(C.TABLE_NAMES.SURVIVOR_ALIAS).select("*").execute().data
+        )

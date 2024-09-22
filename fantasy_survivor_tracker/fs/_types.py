@@ -56,3 +56,10 @@ class BackupRow(TypedDict):
     identifier: int
     tableName: str
     rowInfo: str
+
+
+class SurvivorAlias(TypedDict):
+    id: int
+    created_at: datetime
+    alias: str
+    survivor_id: int
