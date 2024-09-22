@@ -11,6 +11,7 @@ from ...db import DB
 from ..utils import get_args, pairwise
 from ...exceptions import CommandInvalidAccessException
 from ...exceptions import ModelInstanceDoesNotExist
+from ...exceptions import InvalidBetException
 
 
 async def bet(msg: Message):
@@ -27,6 +28,16 @@ async def bet(msg: Message):
     for survivor in survivors:
         if not db.get_survivor_by_name_or_false(survivor):
             raise ModelInstanceDoesNotExist(f"Error: {survivor} is not a survivor")
+
+    total_amount_betting = 0
+    for _, amount in survivors_with_bets:
+        total_amount_betting+=float(amount)
+    user_unspent = db.get_unspent_balance(discord_id=user.id)
+    if round(user_unspent, 3) < round(total_amount_betting, 3):
+        raise InvalidBetException(
+            f'You don\'t have enough to bet. You have {round(user_unspent, 3)} ' +
+            f'but need {total_amount_betting}.'
+        )
 
     for survivor, amount in survivors_with_bets:
         db.create_bet(user, survivor, float(amount))

@@ -116,7 +116,7 @@ class DB:
             The name being checked to see if there is a survivor player
             with that id
 
-        @returns false | dict:
+        @returns false | SurvivorPlayer:
             id: int
                 id of user in db
             created_at: date
