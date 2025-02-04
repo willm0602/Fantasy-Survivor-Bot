@@ -350,6 +350,7 @@ class DB:
             self.supabase.table(row["tableName"]).insert(row["rowInfo"]).execute()
 
     def reset_season(self):
+        self.supabase.from_(C.TABLE_NAMES.SURVIVOR_ALIAS).delete().neq('id', 0).execute()
         self.supabase.from_(C.TABLE_NAMES.BET).delete().neq("id", 0).execute()
         self.supabase.from_(C.TABLE_NAMES.FANTASY_PLAYERS).delete().neq(
             "id", 0
