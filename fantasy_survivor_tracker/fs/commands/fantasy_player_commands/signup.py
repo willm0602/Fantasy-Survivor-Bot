@@ -37,7 +37,7 @@ async def signup(msg: Message):
             "successfully signed up for the Fantasy League!", reference=msg
         )
     else:
-        raise CommandInvalidAccessException("Error: You are already signed up!")
+        raise CommandInvalidAccessException("You are already signed up!")
 
 
 SIGNUP_COMMAND = Command("signup", signup, "fs.signup- signup for the fantasy league")
