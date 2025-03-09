@@ -346,9 +346,6 @@ class DB:
         backup_data: List[BackupRow] = (
             self.supabase.from_(C.TABLE_NAMES.BACKUP).select("*").execute().data
         )
-        
-        # ignore FK checks when loading backup data
-        supabase.rpc('_set_config', {'setting': 'session_replication_role', 'value': 'replica'}).execute()
         for row in backup_data:
             self.supabase.table(row["tableName"]).insert(row["rowInfo"]).execute()
 
