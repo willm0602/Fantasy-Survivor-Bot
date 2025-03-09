@@ -12,7 +12,8 @@ from ...db import DB
 
 async def list_tables(msg: Message):
     db = DB()
-    tables = db.supabase.rpc('get_all_tables', {}).execute()
+    response = db.supabase.table("pg_tables").select("tablename").execute()
+    tables = [row["tablename"] for row in response.data]
     res = ""
     for table in tables:
         res = res + f"{table}\n"
