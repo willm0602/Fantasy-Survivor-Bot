@@ -12,8 +12,8 @@ from ...db import DB
 
 async def query_command(msg: Message):
     query = msg.content[len('fs.query '):]
-    resp = DB().supabase.rpc(query, {})
-    await msg.channel.send(resp)
+    resp = DB().supabase.rpc(query, {}).execute()
+    await msg.channel.send(resp.json())
 
 QUERY_COMMAND = AdminCommand(
     "query",
