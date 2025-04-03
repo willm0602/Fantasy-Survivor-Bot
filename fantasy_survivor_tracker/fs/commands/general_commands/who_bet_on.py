@@ -44,7 +44,10 @@ async def who_bet(msg: Message):
             else:
                 bets[fp_name] = bet_amount
     sorted_bets = sorted(bets.items(), key=lambda bet: bet[1], reverse=True)
-    _msg = "\n".join([f"{bet[0]}- {bet[1]}" for bet in sorted_bets])
+    if len(sorted_bets) == 0:
+        await msg.channel.send(f'Nobody bet on {survivor_name}')
+        return
+    _msg = "\n".join([f"{bet[0]}- {bet[1].2f}" for bet in sorted_bets])
     await msg.channel.send(_msg, reference=msg)
 
 
