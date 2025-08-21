@@ -10,4 +10,5 @@ from fantasy_survivor_tracker import cron, setup_bot
 dotenv.load_dotenv(".env")
 
 token = os.environ["DISCORD_TOKEN"]
+print(f"USING TOKEN {token}")
 setup_bot(token)
