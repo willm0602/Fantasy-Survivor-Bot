@@ -51,10 +51,16 @@ class Command:
                 end_time = datetime.now()
                 duration = (end_time - start_time).microseconds / 1000000
                 return res
-            except (CommandInputException, InvalidBetException, ModelInstanceDoesNotExist) as e:
+            except (
+                CommandInputException,
+                InvalidBetException,
+                ModelInstanceDoesNotExist,
+            ) as e:
                 await msg.channel.send(e, reference=msg)
             except Exception as e:
-                await msg.channel.send('Something went wrong, please ping Will', reference=msg)
+                await msg.channel.send(
+                    "Something went wrong, please ping Will", reference=msg
+                )
 
                 # https://stackoverflow.com/a/28836286
                 error_class = e.__class__.__name__
@@ -115,6 +121,10 @@ class UserCommand(Command):
 
 class BetCommand(UserCommand):
     async def run(self, msg: Message):
+        db = DB()
+        if db.is_locked():
+            await msg.channel.send('Betting is locked')
+            return
         await super().run(msg)
         if DB().get_registered_user_id_or_false(msg.author):
             await list_bets(msg)
